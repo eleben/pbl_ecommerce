@@ -1,9 +1,16 @@
 import React from "react";
-import Base from "../components/Base";
+
+import Featured from "../components/Featured";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 const Landing = () => {
   return (
     <>
-      <Base/>
+      <Header />
+
+      <Featured />
+
+      <Footer />
     </>
   );
 };

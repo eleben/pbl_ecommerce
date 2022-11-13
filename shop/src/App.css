@@ -7,7 +7,7 @@
 @import "assets/css/slicknav.min";
 @import "assets/css/style" ;
 
-.altImageStyle{
+  .altImageStyle {
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -31,3 +31,31 @@
     margin: 20px 0;
     cursor: "pointer";
   }
+
+ /* The sticky class is added to the header with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  padding-top: 102px;
+}
+.cart-float{
+	position:fixed;
+	width:80px;
+	height:80px;
+	bottom:60%;
+	right:40px;
+  font-size:48px;
+	color:rgb(3, 58, 44);
+	border-radius:50px;
+	text-align:center;
+	/* box-shadow: 2px 2px 3px #999; */
+}
+
+.my-float{
+	margin-top:22px;
+}

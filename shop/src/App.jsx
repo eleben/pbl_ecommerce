@@ -5,7 +5,7 @@ import { FrappeProvider } from "frappe-react-sdk";
 
 
 import Landing from './pages/Landing'
-import Cart from "./pages/Cart";
+
 import { CartProvider} from './CartContext'
 function App() {
  
@@ -15,7 +15,7 @@ function App() {
       <FrappeProvider url="http://dev.pbl.com">
         <Router>
           <Routes>
-          <Route path="/shop" exact element={<CartProvider><Landing /></CartProvider>} />
+          <Route path="/shop" exact element={<CartProvider><Landing  /></CartProvider>} />
           
           </Routes>
         </Router>

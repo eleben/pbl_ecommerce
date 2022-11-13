@@ -5,12 +5,43 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import CartContext from "../CartContext";
 import { HiOutlineArrowLeft } from "react-icons/hi";
+import Swal from "sweetalert2";
+
 const Cart = () => {
   const [lgShow, setLgShow] = useState(true);
   const { cartItems, removeFromCart } = useContext(CartContext);
+
   
+  let inCart = cartItems.map(itm=>itm.item_code);
+  const uniqueItems =[...new Set(inCart)]
+
+  let uniqueCartItems = uniqueItems.map(itemCode=>{
+    let filtered = cartItems.find(item=>item.item_code===itemCode)
+    let quantity_ordered = cartItems.filter(item=>item.item_code===itemCode).length
+    return {...filtered,quantity_ordered}
+  })
+  const submitOrder =()=>{
+    Swal.fire({
+      title: `Posting an RFQ for ${uniqueCartItems.length} items`,
+      text: "A request for quotation won't break your bank [yet ;)] but it is always advisable to cancel and crosscheck your order.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'This is ok, send it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
+  }
   return (
     <>
+
       <Modal
         size="lg"
         show={lgShow}
@@ -22,12 +53,10 @@ const Cart = () => {
         aria-labelledby="example-modal-sizes-title-lg"
       >
         <Modal.Header closeButton>
+          
           <Modal.Title id="example-modal-sizes-title-lg">
-            My Quotation List
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h3
+           <p>My Quotation List: {uniqueItems.length} items in cart:. {inCart.length} quantities in total</p> 
+           <small
             style={{ color: "green" }}
             onClick={() => {
               setLgShow((lgShow) => !lgShow);
@@ -35,8 +64,11 @@ const Cart = () => {
             }}
           >
             <HiOutlineArrowLeft /> Back to shopping
-          </h3>
-          <ShoppingCart items={cartItems} handleOnRemove={removeFromCart} />
+          </small>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ShoppingCart items={uniqueCartItems} handleOnRemove={removeFromCart} />
           <hr />
           <div class="row">
             <div class="col-lg-12">
@@ -50,7 +82,7 @@ const Cart = () => {
                 >
                   CONTINUE SHOPPING
                 </button>
-                <button class="primary-btn cart-btn cart-btn-right">
+                <button class="primary-btn cart-btn cart-btn-right" onClick={()=>{submitOrder()}}>
                   <span class="icon_loading"></span>
                   Submit Cart
                 </button>
@@ -74,7 +106,7 @@ const ShoppingCart = ({ items, handleOnRemove }) => {
       .join("")
       .toUpperCase();
   };
-  let uniqueItems = [items.map(itm=>itm.item_code)];
+ 
   return (
     <>
       {/* <p>{JSON.stringify(items)}</p> */}
@@ -86,7 +118,7 @@ const ShoppingCart = ({ items, handleOnRemove }) => {
                 <table>
                   <thead>
                     <tr>
-                      <th class="shoping__product">Products</th>
+                      <th class="shoping__product">Product(s)</th>
                       <th>Classification</th>
                       <th>Quantity</th>
                       {/* <th>Total</th> */}

@@ -1,10 +1,15 @@
 import React from "react";
+import { useContext } from "react";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import CartContext from "../CartContext";
 
 const ItemDetail = ({ item, setIsOpen }) => {
   const [lgShow, setLgShow] = useState(true);
+  const {cartItems, addToCart} = useContext(CartContext)
+
+  const alreadyInCart = cartItems.filter(cartItem=>cartItem.item_code===item.item_code)
   return (
     <>
       <Modal
@@ -27,13 +32,13 @@ const ItemDetail = ({ item, setIsOpen }) => {
             Back to items
           </i>
 
-          <ItemFullDetail item={item} />
+          <ItemFullDetail item={item} inCart={alreadyInCart} handleAddToCart ={addToCart} />
         </Modal.Body>
       </Modal>
     </>
   );
 };
-const ItemFullDetail = ({ item }) => {
+const ItemFullDetail = ({ item,inCart,handleAddToCart }) => {
   const altImageInitials = (itemName) => {
     let initials = itemName
       .split(" ")
@@ -58,10 +63,10 @@ const ItemFullDetail = ({ item }) => {
                       style={{ cursor: "pointer" }}
                       alt="An image of "
                       src={item.website_image}
-                      className="thumbNailStyle"
+                      
                     />
                   ) : (
-                    <div className="altImageStyle">
+                    <div className="altImageStyle" style={{cursor: "pointer"}}>
                       {altImageInitials(item.web_item_name)}
                     </div>
                   )}
@@ -76,16 +81,18 @@ const ItemFullDetail = ({ item }) => {
                   Classification: {item.item_group} <br />
                   <small>{item.web_long_description || item.name}</small>
                 </p>
-                <div class="product__details__quantity">
+
+                <em style={{"color":"red"}}>Already in Cart: {inCart.length}</em><br/><br/>
+                {/* <div class="product__details__quantity">
                   <div class="quantity">
                     <div class="pro-qty">
                       <input type="text" value="1" />
                     </div>
                   </div>
-                </div>
-                <a href="#" class="primary-btn">
+                </div> */}
+                <button class="primary-btn" onClick={()=>handleAddToCart(item)}>
                   ADD TO QUOTE
-                </a>
+                </button>
 
                 {/* <ul>
                   <li>

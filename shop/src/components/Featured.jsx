@@ -6,6 +6,7 @@ import GridItem from "./GridItem";
 import CartContext from "../CartContext";
 import { useContext } from "react";
 import Cart from "../pages/Cart";
+import { BsCart4 } from "react-icons/bs";
 const Featured = () => {
   const itemGroups = itemsPayload.items.map((row) => row.item_group);
   let uniqueItemGroups = [...new Set(itemGroups)];
@@ -14,8 +15,8 @@ const Featured = () => {
   const [pageData, setPageData] = useState(itemsPayload.items);
   const [groupFilter, setGroupFilter] = useState("All");
 
-  const {cartItems} = useContext(CartContext)
-  const [showCart, setShowCart] = useState(false)
+  const { cartItems } = useContext(CartContext);
+  const [showCart, setShowCart] = useState(false);
   const launchCartModal = () => {
     setShowCart(!showCart);
   };
@@ -61,11 +62,10 @@ const Featured = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-
   return (
     <>
       {/* <p>{JSON.stringify(cartItems.map(t=>JSON.stringify(t)))}</p> */}
-      {showCart && <Cart  setIsOpen={launchCartModal} />}
+      {showCart && <Cart setIsOpen={launchCartModal} />}
       <section class="hero hero-normal">
         <div class="container">
           <div class="row">
@@ -121,9 +121,9 @@ const Featured = () => {
                   <form action="#">
                     <input
                       type="text"
-                      placeholder={`Type to search. We have ${
-                        numberWithCommas(itemsPayload.items.length)
-                      } consumables available !`}
+                      placeholder={`Type to search. We have ${numberWithCommas(
+                        itemsPayload.items.length
+                      )} consumables available !`}
                       onChange={(e) => {
                         filterSearch(e.target.value);
                       }}
@@ -131,31 +131,25 @@ const Featured = () => {
                   </form>
                 </div>
                 <div class="header__cart">
-                <ul>
-                  
-                  <li>
-                    <a>
+                  <ul>
+                    <li>
+                      {/* <a>
                       <i class="fa fa-shopping-bag fa-5x" onClick={()=>launchCartModal()}></i> <span>{cartItems.length}</span>
-                    </a>
-                  </li>
-                </ul>
-                
-              </div>
-                {/* <div class="hero__search__phone">
-                  <div class="hero__search__phone__icon">
-                    <i class="fa fa-phone"></i>
-                  </div>
-                  <div class="hero__search__phone__text">
-                    <h5>+65 11.188.888</h5>
-                    <span>support 24/7 time</span>
-                  </div>
-                </div> */}
+                    </a> */}
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
+      <div  class="cart-float">
+        <h4 onClick={() => launchCartModal()}>
+          <BsCart4 style={{"color":"green","font-size":"48px"}}  />
+          <span>  {cartItems.length}</span>
+        </h4>
+      </div>
       <section class="featured spad">
         <div class="container">
           <div class="row">
