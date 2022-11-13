@@ -5,21 +5,24 @@ import { FrappeProvider } from "frappe-react-sdk";
 
 
 import Landing from './pages/Landing'
-
+import Cart from "./pages/Cart";
+import { CartProvider} from './CartContext'
 function App() {
-  const [count, setCount] = useState(0);
+ 
 
   return (
     <div className="App">
-      <FrappeProvider>
+      <FrappeProvider url="http://dev.pbl.com">
         <Router>
           <Routes>
-          <Route path="/" exact element={<Landing />} />
+          <Route path="/shop" exact element={<CartProvider><Landing /></CartProvider>} />
+          
           </Routes>
         </Router>
         </FrappeProvider> 
     </div>
   );
 }
+
 
 export default App;

@@ -187,4 +187,7 @@ user_data_fields = [
 # For example: Role, Gender, etc.
 # translated_search_doctypes = []
 
-website_route_rules = [{'from_route': '/shop', 'to_route': 'shop'}]
+website_route_rules = [{'from_route': '/shop', 'to_route': 'shop'},
+                       {'from_route': '/quote', 'to_route': 'quote'},
+                     
+                       ]

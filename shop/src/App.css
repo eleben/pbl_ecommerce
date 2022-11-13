@@ -1,4 +1,4 @@
-@import "assets/css/bootstrap.min";
+/* @import "assets/css/bootstrap.min"; */
 @import "assets/css/font-awesome.min";
 @import "assets/css/elegant-icons";
 @import "assets/css/nice-select";
@@ -6,3 +6,28 @@
 @import "assets/css/owl.carousel.min";
 @import "assets/css/slicknav.min";
 @import "assets/css/style" ;
+
+.altImageStyle{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: lightgray;
+    font-size: 35px;
+    color: #fff;
+    text-align: center;
+    line-height: 150px;
+    margin: 20px 0;
+    cursor: "pointer";
+  }
+
+  .thumbNailStyle{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    font-size: 35px;
+    color: #fff;
+    text-align: center;
+    line-height: 150px;
+    margin: 20px 0;
+    cursor: "pointer";
+  }

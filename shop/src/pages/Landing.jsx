@@ -1,7 +1,11 @@
 import React from "react";
 import Base from "../components/Base";
 const Landing = () => {
-  return <Base />;
+  return (
+    <>
+      <Base/>
+    </>
+  );
 };
 
 export default Landing;
