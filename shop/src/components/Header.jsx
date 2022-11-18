@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
+import CartContext from "../CartContext";
 const Header = () => {
- 
+  const { loading } = useContext(CartContext);
+
   return (
     <>
-      {/* <div id="preloder">
+  {/* <div id="preloder">
         <div class="loader"></div>
       </div> */}
 
-      
       <div>
- 
         <div class="humberger__menu__overlay"></div>
         <div class="humberger__menu__wrapper">
           <div class="humberger__menu__logo">
@@ -194,13 +194,13 @@ const Header = () => {
               <div class="col-lg-3">
                 <br />
                 <div class="hero__search__phone">
-                  <div class="hero__search__phone__icon">
+                  {/* <div class="hero__search__phone__icon">
                     <i class="fa fa-phone"></i>
                   </div>
                   <div class="hero__search__phone__text">
                     <h5>+65 11.188.888</h5>
                     <span>support 24/7 time</span>
-                  </div>
+                  </div> */}
                 </div>
                 {/* <div class="header__cart">
                 <ul>

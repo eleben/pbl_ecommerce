@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 import CartContext from "../CartContext";
 
 const ItemDetail = ({ item, setIsOpen }) => {
@@ -28,9 +29,15 @@ const ItemDetail = ({ item, setIsOpen }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <i class="fa fa-arrow-left" aria-hidden="true">
-            Back to items
-          </i>
+        <small
+            style={{ color: "green",cursor: "pointer"  }} 
+            onClick={() => {
+              setLgShow((lgShow) => !lgShow);
+              setIsOpen(lgShow);
+            }}
+          >
+            <HiOutlineArrowLeft /> Back to shopping
+          </small>
 
           <ItemFullDetail item={item} inCart={alreadyInCart} handleAddToCart ={addToCart} />
         </Modal.Body>

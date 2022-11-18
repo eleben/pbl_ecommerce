@@ -40,7 +40,9 @@ const GridItem = ({ item }) => {
                 }}
               />
             ) : (
-              <div className="altImageStyle">
+              <div className="altImageStyle" style={{cursor: "pointer"}} onClick={() => {
+                launchModal();
+              }}>
                 {altImageInitials(item.web_item_name)}
               </div>
             )}
