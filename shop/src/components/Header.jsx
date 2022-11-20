@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import CartContext from "../CartContext";
+
+import { getCookie } from "../cookie";
 const Header = () => {
   const { loading } = useContext(CartContext);
 
   return (
     <>
-  {/* <div id="preloder">
+      {/* <div id="preloder">
         <div class="loader"></div>
       </div> */}
 
@@ -143,7 +145,7 @@ const Header = () => {
                         <i class="fa fa-pinterest-p"></i>
                       </a>
                     </div>
-                    <div class="header__top__right__language">
+                    {/* <div class="header__top__right__language">
                       <img src="img/language.png" alt="" />
                       <div>English</div>
                       <span class="arrow_carrot-down"></span>
@@ -155,11 +157,14 @@ const Header = () => {
                           <a href="#">English</a>
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
                     <div class="header__top__right__auth">
-                      <a href="#">
-                        <i class="fa fa-user"></i> Login
-                      </a>
+                      <p>{getCookie("full_name") || "N/A"}</p>
+                      {getCookie("full_name") === "Guest" && (
+                        <a href="/login">
+                          <i class="fa fa-user"></i> Login
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -176,7 +181,7 @@ const Header = () => {
                 </div>
               </div>
               <div class="col-lg-6">
-                <nav class="header__menu">
+                {/* <nav class="header__menu">
                   <ul>
                     <li>
                       <a href="/shop">Shop</a>
@@ -189,7 +194,7 @@ const Header = () => {
                       <a href="/contact">Contact</a>
                     </li>
                   </ul>
-                </nav>
+                </nav> */}
               </div>
               <div class="col-lg-3">
                 <br />

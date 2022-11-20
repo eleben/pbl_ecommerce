@@ -1,38 +1,21 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { fetchShopItems } from "../assets/shopItems";
 import GridItem from "./GridItem";
 import CartContext from "../CartContext";
 import { useContext } from "react";
 import Cart from "../pages/Cart";
 import { BsCart4 } from "react-icons/bs";
 // import {call} from 'frappe-react-sdk';
-const Featured =  () => {
-  console.log("New World order")
-  const { cartItems,itemsPayload,pageData,uniqueItemGroups } = useContext(CartContext);
-  // const [itemsPayload, setItemsPayload] = useState({});
-  // const [pageData, setPageData] = useState([]);
-  // const [uniqueItemGroups, setUniqueItemGroups] = useState([]);
+const Featured = ({ itemsPayload }) => {
+  console.log("New World order ||");
+  const { cartItems } = useContext(CartContext);
 
-  // let r = fetchShopItems();
-   
-  // setItemsPayload((prevState) => r);
-  // setPageData((prevState) => r.items);
-  // let itemGroups = r.items.map((row) => row.item_group);
-  // let uniqGrps = [...new Set(itemGroups)];
-  // setUniqueItemGroups((prevState) => uniqGrps);
-  // uniqueItemGroups = [...new Set(itemGroups)];
+  console.log(JSON.stringify(itemsPayload));
+  const [pageData, setPageData] = useState(itemsPayload.items || []);
+  let itemGroups = itemsPayload.items.map((row) => row.item_group);
+  let uniqGrps = [...new Set(itemGroups)];
+  const [uniqueItemGroups, setUniqueItemGroups] = useState(uniqGrps || []);
 
-  // const [itemsPayload, setItemsPayload] = useState({});
-  // const itemsPayload = fetchItems();
-  // const pageData = itemsPayload.items;
-  // console.log("What is weong with pgd" + JSON.stringify(itemsPayload));
-  // const [pageData, setPageData] = useState([]);
-  // let itemGroups = itemsPayload.items.map((row) => row.item_group);
-  // let uniqueItemGroups = [...new Set(itemGroups)];
-  // const [uniqueItemGroups, setUniqueItemGroups] = useState([]);
-
-  // const [itemGroups, setItemGroups] = useState([]);
   const [showDepartments, setShowDepartments] = useState(false);
   const [showCategories, setShowshowCategories] = useState(false);
   const [groupFilter, setGroupFilter] = useState("All");
@@ -55,7 +38,6 @@ const Featured =  () => {
     }
     const regexp = new RegExp(value, "i");
     console.log(value);
-    // setPageData(pageData=>itemsPayload.items.filter(item=>item.web_item_name.includes(value)))
     setPageData((pageData) =>
       itemsPayload.items.filter((item) => regexp.test(item.web_item_name))
     );
@@ -67,7 +49,6 @@ const Featured =  () => {
     }
     const regexp = new RegExp(category, "i");
     console.log(category);
-    // setPageData(pageData=>itemsPayload.items.filter(item=>item.web_item_name.includes(value)))
     setPageData((pageData) =>
       itemsPayload.items.filter((item) => regexp.test(item.item_group))
     );
@@ -83,62 +64,11 @@ const Featured =  () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  const fetchItems = async () => {
-    // setIsloading((prevState) => true);
-    let apiHost = "https://portal.premierbiolife.com/";
-    // let auth = 'token 63f75eb8c710780:6f4b953ad681315' //dev
-    let auth = "token ef21846a44f6bc2:8674836caeba2ab"; //prod
-    console.log("Starting");
-
-    let url = `${apiHost}/api/method/erpnext.e_commerce.api.get_product_filter_data`;
-    let query_args = {
-      field_filters: {},
-      attribute_filters: {},
-      item_group: "",
-      start: 0,
-      from_filters: 0,
-    };
-
-    let data = await (
-      await fetch(`${url}?query_args=${JSON.stringify(query_args)}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: auth,
-          // Authorization: auth
-        },
-        async: false,
-      })
-    ).json();
-    console.log("At least this runs?");
-    let payload = data.message;
-    setItemsPayload((prevState) => payload.message);
-
-    let itemGroups = payload.items.map((row) => row.item_group);
-    setUniqueItemGroups(() => [...new Set(itemGroups)]);
-    setPageData(payload.items);
-    setIsloading((prevState) => false);
-   
-    return {};
-  };
-
-  // useEffect(() => {
-  //   alert("I am starting");
-  //   let r = fetchShopItems();
-   
-  //   setItemsPayload((prevState) => r);
-  //   setPageData((prevState) => r.items);
-  //   let itemGroups = r.items.map((row) => row.item_group);
-  //   let uniqGrps = [...new Set(itemGroups)];
-  //   setUniqueItemGroups((prevState) => uniqGrps);
-  // }, []);
   return (
     <>
-      {/* <p>{JSON.stringify(cartItems.map(t=>JSON.stringify(t)))}</p> */}
       {showCart && <Cart setIsOpen={launchCartModal} />}
 
-      <section class="hero hero-normal">
+      <section class="hero hero-normal" style={{"position": "sticky","top":"0", "background": "#f8f8f8","padding": "10px 16px"}}>
         <div class="container">
           <div class="row">
             <div class="col-lg-3">
@@ -180,6 +110,7 @@ const Featured =  () => {
                   class="btn btn-link"
                   onClick={() => {
                     setGroupFilter((groupFilter) => "All");
+                    filterByCategory("All");
                   }}
                 >
                   Clear Filter
@@ -203,29 +134,32 @@ const Featured =  () => {
                   </form>
                 </div>
                 <div class="header__cart">
-                  <ul>
-                    <li>
-                      {/* <a>
-                      <i class="fa fa-shopping-bag fa-5x" onClick={()=>launchCartModal()}></i> <span>{cartItems.length}</span>
-                    </a> */}
-                    </li>
-                  </ul>
+                  {/* <ul>
+                    <li onClick={() => launchCartModal()}>
+                    <BsCart4 style={{ color: "green", "font-size": "48px" }} />
+                    <span> {cartItems.length}</span>Cart</li>
+                  </ul> */}
+                  <p onClick={() => launchCartModal()}>
+                    <BsCart4 style={{ color: "green", "font-size": "48px" }} />
+                    <span> {cartItems.length}</span> Cart
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      <div class="cart-float">
+      <hr />
+      {/* <div class="cart-float">
         <h4 onClick={() => launchCartModal()}>
           <BsCart4 style={{ color: "green", "font-size": "48px" }} />
           <span> {cartItems.length}</span>
         </h4>
-      </div>
-      <section class="featured spad content">
+      </div> */}
+      
+      <section class="featured spad content" style={{"padding": "16px"}}>
         <div class="container">
-          <div class="row">
+          {/* <div class="row">
             <div class="col-lg-12">
               <div class="section-title">
                 <h2>Featured Products</h2>
@@ -257,7 +191,7 @@ const Featured =  () => {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
           <div class="row featured__filter">
             {pageData.map((row) => (
               <GridItem item={row} />

@@ -12,7 +12,7 @@ export const fetchShopItems = async() => {
         start: 0,
         from_filters: 0,
     };
-    let data = fetch(`${url}?query_args=${JSON.stringify(query_args)}`, {
+    let data = await fetch(`${url}?query_args=${JSON.stringify(query_args)}`, {
         method: "GET",
         headers: {
             Accept: "application/json",
@@ -20,8 +20,8 @@ export const fetchShopItems = async() => {
             Authorization: auth,
             // Authorization: auth
         },
-      
-    })
 
-    return data.message
+    })
+    let payload = await data.json()
+    return payload.message
 };

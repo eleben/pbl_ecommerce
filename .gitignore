@@ -4,3 +4,4 @@
 *.swp
 tags
 pbl_ecommerce/docs/current
+pbl_ecommerce/shop/config.js

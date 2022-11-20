@@ -1,25 +1,15 @@
 import React, { createContext, useState } from "react";
 import { useEffect } from "react";
-import { fetchShopItems } from "./assets/shopItems";
-
+import { getCookie, setCookie, eraseCookie } from "./cookie";
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cartItems, setItems] = useState([]);
-  const [itemsPayload, setItemsPayload] = useState({});
-  const [pageData, setPageData] = useState([]);
-  const [uniqueItemGroups, setUniqueItemGroups] = useState([]);
+  
 
-  const loadContext = () => {
-    let r = fetchShopItems();
-    setItemsPayload((prevState) => r);
-    setPageData((prevState) => r.items);
-    let itemGroups = r.items.map((row) => row.item_group);
-    let uniqGrps = [...new Set(itemGroups)];
-    setUniqueItemGroups((prevState) => uniqGrps);
-
-  };
-
+  useEffect(()=>{
+    setItems((prevState)=>getCookie("cart_items") || [])
+  },[])
   const removeFromCart = (item_code) => {
     setItems((prevState) =>
       prevState.filter((cartItem) => cartItem.item_code !== item_code)
@@ -27,20 +17,27 @@ export function CartProvider({ children }) {
   };
   const addToCart = (addedItem) => {
     let quantity_ordered = 1;
+    let website_image = addedItem.website_image || "";
+    setItems((prevState) => [...prevState, { ...addedItem, quantity_ordered , website_image}]);
+    setCookie("cart_items",[...prevState, { ...addedItem, quantity_ordered , website_image}])
+  };
+
+  const addToCartWithQty = (addedItem,qty) => {
+    let quantity_ordered = parseInt(qty);
     setItems((prevState) => [...prevState, { ...addedItem, quantity_ordered }]);
   };
-  useEffect(() => {
-    loadContext()
-  },[]);
+  const emptyCart =()=>{
+    setItems((prevState)=>[])
+    eraseCookie("cart_items")
+  }
   return (
     <CartContext.Provider
       value={{
-        itemsPayload,
-        pageData,
-        uniqueItemGroups,
         cartItems,
         addToCart,
         removeFromCart,
+        addToCartWithQty,
+        emptyCart
       }}
     >
       {children}
