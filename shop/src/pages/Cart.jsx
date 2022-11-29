@@ -85,6 +85,7 @@ const Cart = () => {
           setIsOpen(lgShow);
         }}
         aria-labelledby="example-modal-sizes-title-lg"
+        // style={{"z-index": "3"}}
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
@@ -108,6 +109,7 @@ const Cart = () => {
             items={uniqueCartItems}
             handleOnRemove={removeFromCart}
             handleQuoteSubmit={submitOrder}
+            // style={{"z-index": "3"}}
           />
         </Modal.Body>
       </Modal>

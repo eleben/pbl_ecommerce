@@ -68,7 +68,16 @@ const Featured = ({ itemsPayload }) => {
     <>
       {showCart && <Cart setIsOpen={launchCartModal} />}
 
-      <section class="hero hero-normal" style={{"position": "sticky","top":"0", "background": "#f8f8f8","padding": "10px 16px"}}>
+      {/* <section
+        class="hero hero-normal"
+        style={{
+          position: "sticky",
+          top: "0",
+          background: "#f8f8f8",
+          padding: "10px 16px",
+          "z-index": "2",
+        }}
+      >
         <div class="container">
           <div class="row">
             <div class="col-lg-3">
@@ -124,9 +133,7 @@ const Featured = ({ itemsPayload }) => {
                   <form action="#">
                     <input
                       type="text"
-                      placeholder={`Type to search. We have ${numberWithCommas(
-                        itemsPayload.items.length
-                      )} consumables available !`}
+                      placeholder="Type to search"
                       onChange={(e) => {
                         filterSearch(e.target.value);
                       }}
@@ -134,11 +141,7 @@ const Featured = ({ itemsPayload }) => {
                   </form>
                 </div>
                 <div class="header__cart">
-                  {/* <ul>
-                    <li onClick={() => launchCartModal()}>
-                    <BsCart4 style={{ color: "green", "font-size": "48px" }} />
-                    <span> {cartItems.length}</span>Cart</li>
-                  </ul> */}
+               
                   <p onClick={() => launchCartModal()}>
                     <BsCart4 style={{ color: "green", "font-size": "48px" }} />
                     <span> {cartItems.length}</span> Cart
@@ -148,7 +151,77 @@ const Featured = ({ itemsPayload }) => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <nav
+        class="navbar sticky-top navbar-light"
+        style={{ "background-color": "#f8f8f8" }}
+      >
+        <div className="container">
+          <div class="dropdown">
+            <button
+              class="btn btn-success dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Filter by Category
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <ul>
+                <li
+                  class="dropdown-item"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setGroupFilter((groupFilter) => "All");
+                    filterByCategory("All");
+                  }}
+                >
+                  All Items
+                </li>
+                <hr />
+
+                {uniqueItemGroups.map((itemGroup, key) => {
+                  return (
+                    <li key={key}>
+                      <small
+                        style={{ cursor: "pointer" }}
+                        class="dropdown-item"
+                        onClick={() => {
+                          setGroupFilter((groupFilter) => itemGroup);
+                          filterByCategory(itemGroup);
+                        }}
+                      >
+                        {itemGroup} {` (${itemCountPerGroup(itemGroup)})`}
+                      </small>
+                      <hr />
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-group has-search">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control" placeholder="Search for products" 
+             onChange={(e) => {
+              filterSearch(e.target.value);
+            }}
+            />
+          </div>
+
+          <span class="navbar-text">
+            <p onClick={() => launchCartModal()}>
+              <BsCart4 style={{ color: "green", "font-size": "24px" }} />
+              <span> {cartItems.length}</span> Cart
+            </p>
+          </span>
+        </div>
+      </nav>
+
       <hr />
       {/* <div class="cart-float">
         <h4 onClick={() => launchCartModal()}>
@@ -156,8 +229,8 @@ const Featured = ({ itemsPayload }) => {
           <span> {cartItems.length}</span>
         </h4>
       </div> */}
-      
-      <section class="featured spad content" style={{"padding": "16px"}}>
+
+      <section class="featured spad content" style={{ padding: "16px" }}>
         <div class="container">
           {/* <div class="row">
             <div class="col-lg-12">
@@ -192,9 +265,16 @@ const Featured = ({ itemsPayload }) => {
               </div>
             </div>
           </div> */}
-          <div class="row featured__filter">
-            {pageData.map((row) => (
-              <GridItem item={row} />
+
+          {/* <div class="row featured__filter">
+            {pageData.map((row, id) => (
+              <GridItem key={id} item={row} />
+              
+            ))}
+          </div> */}
+          <div class="row">
+            {pageData.map((row, id) => (
+              <GridItem key={id} item={row} />
             ))}
           </div>
         </div>

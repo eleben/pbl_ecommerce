@@ -8,9 +8,11 @@ import CartContext from "../CartContext";
 
 const ItemDetail = ({ item, setIsOpen }) => {
   const [lgShow, setLgShow] = useState(true);
-  const {cartItems, addToCart} = useContext(CartContext)
+  const { cartItems, addToCart } = useContext(CartContext);
 
-  const alreadyInCart = cartItems.filter(cartItem=>cartItem.item_code===item.item_code)
+  const alreadyInCart = cartItems.filter(
+    (cartItem) => cartItem.item_code === item.item_code
+  );
   return (
     <>
       <Modal
@@ -22,6 +24,7 @@ const ItemDetail = ({ item, setIsOpen }) => {
           setIsOpen(lgShow);
         }}
         aria-labelledby="example-modal-sizes-title-lg"
+        // style={{ "z-index": "3" }}
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
@@ -29,8 +32,8 @@ const ItemDetail = ({ item, setIsOpen }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <small
-            style={{ color: "green",cursor: "pointer"  }} 
+          <small
+            style={{ color: "green", cursor: "pointer" }}
             onClick={() => {
               setLgShow((lgShow) => !lgShow);
               setIsOpen(lgShow);
@@ -39,13 +42,18 @@ const ItemDetail = ({ item, setIsOpen }) => {
             <HiOutlineArrowLeft /> Back to shopping
           </small>
 
-          <ItemFullDetail item={item} inCart={alreadyInCart} handleAddToCart ={addToCart} />
+          <ItemFullDetail
+            item={item}
+            inCart={alreadyInCart}
+            handleAddToCart={addToCart}
+            // style={{ "z-index": "3" }}
+          />
         </Modal.Body>
       </Modal>
     </>
   );
 };
-const ItemFullDetail = ({ item,inCart,handleAddToCart }) => {
+const ItemFullDetail = ({ item, inCart, handleAddToCart }) => {
   const altImageInitials = (itemName) => {
     let initials = itemName
       .split(" ")
@@ -57,7 +65,7 @@ const ItemFullDetail = ({ item,inCart,handleAddToCart }) => {
       .join("")
       .toUpperCase();
   };
-  const [qtyOrdered, setQtyOrdered] = useState(1)
+  const [qtyOrdered, setQtyOrdered] = useState(1);
   return (
     <>
       <section class="product-details spad">
@@ -71,10 +79,12 @@ const ItemFullDetail = ({ item,inCart,handleAddToCart }) => {
                       style={{ cursor: "pointer" }}
                       alt="An image of "
                       src={item.website_image}
-                      
                     />
                   ) : (
-                    <div className="altImageStyle" style={{cursor: "pointer"}}>
+                    <div
+                      className="altImageStyle"
+                      style={{ cursor: "pointer" }}
+                    >
                       {altImageInitials(item.web_item_name)}
                     </div>
                   )}
@@ -90,7 +100,11 @@ const ItemFullDetail = ({ item,inCart,handleAddToCart }) => {
                   <small>{item.web_long_description || item.name}</small>
                 </p>
 
-                <em style={{"color":"red"}}>Already in Cart: {inCart.length}</em><br/><br/>
+                <em style={{ color: "red" }}>
+                  Already in Cart: {inCart.length}
+                </em>
+                <br />
+                <br />
                 {/* <div class="product__details__quantity">
                   <div class="quantitys">
                     <div class="pro-qty">
@@ -98,16 +112,16 @@ const ItemFullDetail = ({ item,inCart,handleAddToCart }) => {
                     </div>
                   </div>
                 </div> */}
-                <button class="primary-btn" onClick={()=>handleAddToCart(item)}>
+                <button
+                  class="primary-btn"
+                  onClick={() => handleAddToCart(item)}
+                >
                   ADD TO QUOTE
                 </button>
-
-               
               </div>
             </div>
             <div class="col-lg-12">
               <div class="product__details__tab">
-               
                 <div class="tab-content">
                   <div class="tab-pane active" id="tabs-1" role="tabpanel">
                     <div class="product__details__tab__desc">
@@ -115,7 +129,6 @@ const ItemFullDetail = ({ item,inCart,handleAddToCart }) => {
                       <p>{item.web_long_description || "-"}</p>
                     </div>
                   </div>
-                  
                 </div>
               </div>
             </div>

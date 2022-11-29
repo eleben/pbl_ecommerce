@@ -189,5 +189,6 @@ user_data_fields = [
 
 website_route_rules = [{'from_route': '/shop', 'to_route': 'shop'},
                        {'from_route': '/quote', 'to_route': 'quote'},
+                       {'from_route': '/', 'to_route': 'shop'},
                      
                        ]

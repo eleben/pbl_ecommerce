@@ -11,13 +11,7 @@ function App() {
   const [payload, setPayload] = useState({})
   const loadContext =()=>{
     fetchShopItems().then(r =>{
-      // let updatedArry = r.items.map(item=>{
-      //   let columns =Object.keys(item)
-      //   if(!columns.includes("website_image")){
-      //     item["website_image"] = null
-      //   }
-      //   return item;
-      // })
+
       setPayload((prevState)=>r)
     })
   }
@@ -31,7 +25,8 @@ function App() {
         <Router>
           <Routes>
           <Route path="/" exact element={<CartProvider><Landing cartPayload={payload}   /></CartProvider>} />
-          <Route path="/shop" exact element={<CartProvider><Landing cartPayload={payload}  /></CartProvider>} />        
+          <Route path="/shop" exact element={<CartProvider><Landing cartPayload={payload}  /></CartProvider>} />  
+          <Route path="/quote" exact element={<CartProvider><Landing cartPayload={payload}  /></CartProvider>} />        
           </Routes>
         </Router>
        
