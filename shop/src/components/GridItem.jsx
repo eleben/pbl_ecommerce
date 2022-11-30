@@ -135,7 +135,7 @@ const GridItem = ({ item }) => {
               </div>
             )}
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="card-body">
               <br />
 
@@ -157,9 +157,9 @@ const GridItem = ({ item }) => {
               </p> */}
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-4">
             <br />
-            <button className="btn btn-primary" onClick={() => addToCart(item)}>
+            <button className="btn btn-primary btn-md" onClick={() => addToCart(item)}>
               <MdOutlineRequestQuote />
               &nbsp;&nbsp; Add to Quote
             </button>

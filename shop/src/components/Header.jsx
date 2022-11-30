@@ -229,39 +229,7 @@ const Header = () => {
         </div>
       </header>
 
-      <div class="md-stepper-horizontal orange" >
-        <div class="md-step active editable">
-          <div class="md-step-circle">
-            <span>1</span>
-          </div>
-          <div class="md-step-title">Add to quote & checkout</div>
-          <div class="md-step-bar-left"></div>
-          <div class="md-step-bar-right"></div>
-        </div>
-        <div class="md-step active email">
-          <div class="md-step-circle">
-            <span>2</span>
-          </div>
-          <div class="md-step-title">Quotation is sent to you</div>
-          <div class="md-step-optional">To your registered email</div>
-          <div class="md-step-bar-left"></div>
-          <div class="md-step-bar-right"></div>
-        </div>
-        <div class="md-step active">
-          <div class="md-step-circle">
-            <span>3</span>
-          </div>
-          <div class="md-step-title">Plan your order</div>
-          <div class="md-step-bar-left"></div>
-          <div class="md-step-bar-right"></div>
-        </div>
-        {/* <div class="md-step">
-      <div class="md-step-circle"><span>4</span></div>
-      <div class="md-step-title">Shipping</div>
-      <div class="md-step-bar-left"></div>
-      <div class="md-step-bar-right"></div>
-    </div> */}
-      </div>
+      
     </>
   );
 };
