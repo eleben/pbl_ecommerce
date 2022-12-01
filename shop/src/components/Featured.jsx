@@ -9,6 +9,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 // import {call} from 'frappe-react-sdk';
 import Form from "react-bootstrap/Form";
 import Badge from "react-bootstrap/Badge";
+import Search from "./Search";
 
 const Featured = ({ itemsPayload }) => {
   //console.log("New World order ||");
@@ -26,6 +27,16 @@ const Featured = ({ itemsPayload }) => {
   const [groupFilter, setGroupFilter] = useState("All");
   const [multipleGroupFilters, setMultipleGroupFilters] = useState([]);
 
+  const [dbSearch, setDBSearch] = useState([]);
+  const [searchTxt, setSearchtxt] = useState("a");
+
+  const handleUpdatePageData = (item) => {
+    let exists = pageData.find((x) => x.item_code === item.item_code);
+    if (!exists) {
+      let updated = [...pageData, item];
+      setPageData(prevState=>updated)
+    }
+  };
   const [showCart, setShowCart] = useState(false);
   const launchCartModal = () => {
     setShowCart(!showCart);
@@ -47,17 +58,19 @@ const Featured = ({ itemsPayload }) => {
     );
   };
 
-  const filterGroupSearch =(value)=>{
+  const filterGroupSearch = (value) => {
     //console.log(value)
     if (value === "" || value === undefined) {
       setSidePanelGroups((prevState) => uniqGrps);
       return;
     }
     const regexp = new RegExp(value, "i");
-    setSidePanelGroups((prevState) => uniqGrps.filter(itemGr=>regexp.test(itemGr)));
+    setSidePanelGroups((prevState) =>
+      uniqGrps.filter((itemGr) => regexp.test(itemGr))
+    );
 
     // setSidePanelGroups((prevState) => prevState.filter(itemGr=>itemGr.toLowerCase().includes(value)));
-  }
+  };
   const filterSearch = (value) => {
     if (value === "" || value === undefined) {
       setPageData((pageData) => itemsPayload.items);
@@ -94,6 +107,8 @@ const Featured = ({ itemsPayload }) => {
   return (
     <>
       {showCart && <Cart setIsOpen={launchCartModal} />}
+
+      {pageData.length < 1 && <Search searchTxt updatePayload={handleUpdatePageData} />}
 
       {/* <section
         class="hero hero-normal"
@@ -185,7 +200,7 @@ const Featured = ({ itemsPayload }) => {
         style={{ "background-color": "#f8f8f8" }}
       >
         <div className="container">
-          <div class="dropdown navbar-filter" >
+          <div class="dropdown navbar-filter">
             <button
               class="btn btn-success dropdown-toggle"
               type="button"
@@ -197,9 +212,9 @@ const Featured = ({ itemsPayload }) => {
               Filter by Category
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <ul>
+              <ul class="list-group" style={{ "list-style-type": "none" }}>
                 <li
-                  class="dropdown-item"
+                  class="dropdown-item list-group-item"
                   style={{ cursor: "pointer" }}
                   onClick={() => {
                     setGroupFilter((groupFilter) => "All");
@@ -208,14 +223,13 @@ const Featured = ({ itemsPayload }) => {
                 >
                   All Items
                 </li>
-                <hr />
 
                 {uniqueItemGroups.map((itemGroup, key) => {
                   return (
                     <li key={key}>
                       <small
                         style={{ cursor: "pointer" }}
-                        class="dropdown-item"
+                        class="dropdown-item list-group-item"
                         onClick={() => {
                           setGroupFilter((groupFilter) => itemGroup);
                           filterByCategory(itemGroup);
@@ -223,7 +237,6 @@ const Featured = ({ itemsPayload }) => {
                       >
                         {itemGroup} {` (${itemCountPerGroup(itemGroup)})`}
                       </small>
-                      <hr />
                     </li>
                   );
                 })}
@@ -239,15 +252,25 @@ const Featured = ({ itemsPayload }) => {
               placeholder="Search for products"
               onChange={(e) => {
                 filterSearch(e.target.value);
+                setSearchtxt((prevState) => e.target.value);
               }}
             />
+            <div></div>
           </div>
 
           <span class="navbar-text">
-            <p onClick={() => launchCartModal()}>
+            <button
+              style={{
+                border: "none",
+                background: "none",
+                color: "green",
+                "font-size": "20px",
+              }}
+              onClick={() => launchCartModal()}
+            >
               <BsCart4 style={{ color: "green", "font-size": "24px" }} />
-              <span> {cartItems.length}</span> Cart
-            </p>
+              {cartItems.length} Cart
+            </button>
           </span>
         </div>
       </nav>
@@ -261,44 +284,48 @@ const Featured = ({ itemsPayload }) => {
       </div> */}
       <div className="container">
         <div className="row">
-          <div className="col-3 sidepanel-filter" style={{"overflow":"scroll"}}>
+          <div
+            className="col-3 sidepanel-filter"
+            style={{ overflow: "scroll" }}
+          >
             <div classname="container">
-            <p>All Item Groups</p>
-           
-            <div class="form-group has-search">
-              <span class="fa fa-search form-control-feedback"></span>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search item group"
-                onChange={(e) => {
-                  console.log(e.target.value)
-                  filterGroupSearch(e.target.value);
-                }}
-              />
-            </div><br/>
-            {sidePanelGroups.length > 1 ? (
-              <Form >
-                <ul>
-                  {sidePanelGroups.map((itemGroup, index) => (
-                    <Form.Check
-                      type="checkbox"
-                      id={itemGroup}
-                      label={`${itemGroup}`}
-                      checked={multipleGroupFilters.includes(itemGroup)}
-                      onChange ={(e)=>console.log(e)}
-                      onClick={(e) => {
-                        handleGroupFilterSelect(itemGroup, e.target.checked);
-                        // //console.log(e.)
-                      }}
-                    />
-                  ))}
-                </ul>
-              </Form>
-            ) : (
-              "All item Group"
-            )}
-          </div>
+              <p>All Item Groups</p>
+
+              <div class="form-group has-search">
+                <span class="fa fa-search form-control-feedback"></span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search item group"
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                    filterGroupSearch(e.target.value);
+                  }}
+                />
+              </div>
+              <br />
+              {sidePanelGroups.length > 1 ? (
+                <Form>
+                  <ul>
+                    {sidePanelGroups.map((itemGroup, index) => (
+                      <Form.Check
+                        type="checkbox"
+                        id={itemGroup}
+                        label={`${itemGroup}`}
+                        checked={multipleGroupFilters.includes(itemGroup)}
+                        onChange={(e) => console.log(e)}
+                        onClick={(e) => {
+                          handleGroupFilterSelect(itemGroup, e.target.checked);
+                          // //console.log(e.)
+                        }}
+                      />
+                    ))}
+                  </ul>
+                </Form>
+              ) : (
+                "All item Group"
+              )}
+            </div>
           </div>
           <div className="col-9">
             <section class="featured spad content" style={{ padding: "16px" }}>
@@ -320,8 +347,8 @@ const Featured = ({ itemsPayload }) => {
                         </>
                       ))
                     : "No filter selected"}
-                 
-                  {multipleGroupFilters.length > 0 || groupFilter!=="All" ? (
+
+                  {multipleGroupFilters.length > 0 || groupFilter !== "All" ? (
                     <button
                       class="btn btn-link"
                       onClick={() => {

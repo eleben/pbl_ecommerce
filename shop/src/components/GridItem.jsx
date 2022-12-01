@@ -159,7 +159,7 @@ const GridItem = ({ item }) => {
           </div>
           <div class="col-md-4">
             <br />
-            <button className="btn btn-primary btn-md" onClick={() => addToCart(item)}>
+            <button style={{"margin-bottom":"5px"}} className="btn btn-primary btn-md" onClick={() => addToCart(item)}>
               <MdOutlineRequestQuote />
               &nbsp;&nbsp; Add to Quote
             </button>
