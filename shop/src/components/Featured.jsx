@@ -98,14 +98,15 @@ const Featured = ({ itemsPayload }) => {
     if (filteredData.length < 1) {
       fetchShopItemsWithFilter(searchTxt).then((r) => {
         if (r !== undefined) {
-          r.product_results.forEach((searchItem) => {
+          let updatedD= r.product_results.map((searchItem) => {
 
-            
-            setPageData((prevState) => [...pageData, searchItem]); 
+
+            return searchItem
             // setPageData((prevState) => [...pageData, searchItem]);
             // handleUpdatePageData(searchItem);
             // filterSearch(value);
           });
+          setPageData((prevState) => updatedD); 
         }
       });
       
