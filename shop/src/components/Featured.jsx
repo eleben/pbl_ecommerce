@@ -98,18 +98,16 @@ const Featured = ({ itemsPayload }) => {
     if (filteredData.length < 1) {
       fetchShopItemsWithFilter(searchTxt).then((r) => {
         if (r !== undefined) {
-          let updatedD= r.product_results.map((searchItem) => {
-
-
-            return searchItem
+          let updatedD = r.product_results.map((searchItem) => {
+            return searchItem;
             // setPageData((prevState) => [...pageData, searchItem]);
             // handleUpdatePageData(searchItem);
             // filterSearch(value);
           });
-          setPageData((prevState) => updatedD); 
+          setPageData((prevState) => updatedD);
         }
       });
-      
+
       return;
     }
     setPageData((pageData) => filteredData);
@@ -531,20 +529,104 @@ const ImageCarousel = ({ listing }) => {
   );
 };
 const HeroSection = () => {
+  const [offers, setOffers] = useState(null);
+
+  const randomThree = (array) => {
+    let n = 3;
+
+    let shuffled = array.sort(function () {
+      return 0.5 - Math.random();
+    });
+
+    let selected = shuffled.slice(0, n);
+
+    return selected;
+  };
+  const alertAnOffer = (offer) => {
+    Swal.fire({
+      title: `<strong>
+           <u>${offer.name}</u>
+        </strong>`,
+
+      html: `
+          <h4>${offer.offer_detail}</h4>
+          <em>Expires on ${offer.offer_expiry}</em>
+        `,
+      showCloseButton: true,
+      showCancelButton: false,
+      focusConfirm: false,
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+      confirmButtonAriaLabel: "Noted, great!",
+    });
+  };
+  useEffect(() => {
+    fetchOffers().then((r) => {
+      setOffers((prevState) => r);
+    });
+  }, []);
   return (
     <>
       {/* "/assets/pbl_ecommerce/banner.jpg" */}
+
       <div class="hero__item set-bg main-hero">
-        {/* {window.location.origin} */}
-        <div class="hero__text">
-          <span>Quality Equipment</span>
-          <h2>
-            At amazing <br />
-            Prices
-          </h2>
-          <p>Free Pickup, Warranty and Delivery available</p>
-          <a href="#item-listing" id="nav-scr" class="primary-btn">
-            SHOP NOW
+        <div
+          id="carouselExampleControls"
+          class="carousel slide"
+          data-ride="carousel"
+          style={{ height: "100%", "overflow-x": "hidden" }}
+        >
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="hero__text">
+                <span>Quality Equipment</span>
+                <h2>
+                  At amazing <br />
+                  Prices
+                </h2>
+                <p>Free Pickup, Warranty and Delivery available</p>
+                <a href="#item-listing" id="nav-scr" class="primary-btn">
+                  SHOP NOW
+                </a>
+              </div>
+            </div>
+
+            {offers === null || !offers ? (
+              <div></div>
+            ) : (
+              offers.map((offer, idx) => (
+                <div class="carousel-item ">
+                  <div class="hero__text">
+                    <span>Till {offer.offer_expiry}</span>
+                    <h4>
+                      {offer.name}
+                      <br />
+                    </h4>
+                    <p>Free Pickup, Warranty and Delivery available</p>
+                    <a href="#item-listing" id="nav-scr" class="primary-btn">
+                      SHOP NOW
+                    </a>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+          <a
+            class="carousel-control-prev"
+            href="#carouselExampleControls"
+            role="button"
+            data-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a
+            class="carousel-control-next"
+            href="#carouselExampleControls"
+            role="button"
+            data-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
           </a>
         </div>
       </div>
