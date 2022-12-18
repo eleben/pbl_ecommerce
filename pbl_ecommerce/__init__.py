@@ -46,3 +46,6 @@ def make_quote(quote_args=None):
 def shopping_cart_offers():
     date_today = datetime.date.today()
     return frappe.get_all("Shopping Cart Offer", fields =["*"], filters=dict(offer_expiry=[">=", date_today]))
+@frappe.whitelist()
+def get_guest_access_keys():
+    return frappe.get_all("Credentials",fields=["*"])
