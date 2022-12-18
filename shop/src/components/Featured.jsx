@@ -99,7 +99,9 @@ const Featured = ({ itemsPayload }) => {
       fetchShopItemsWithFilter(searchTxt).then((r) => {
         if (r !== undefined) {
           r.product_results.forEach((searchItem) => {
-            setPageData((prevState) => [...pageData, searchItem]);
+
+            
+            setPageData((prevState) => [...pageData, searchItem]); 
             // setPageData((prevState) => [...pageData, searchItem]);
             // handleUpdatePageData(searchItem);
             // filterSearch(value);
