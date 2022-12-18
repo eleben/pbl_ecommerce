@@ -3,7 +3,7 @@ export const submitQuote = async(user,cart_items) => {
     // let auth = 'token 63f75eb8c710780:6f4b953ad681315' //dev
     let auth = "token ef21846a44f6bc2:8674836caeba2ab"; //prod
 
-    let url = `${apiHost}/api/method/pbl_ecommerce.`;
+    let url = `${apiHost}/api/method/pbl_ecommerce.make_quote`;
     let quote_args = {
         user,cart_items
     };

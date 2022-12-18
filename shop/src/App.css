@@ -11,6 +11,9 @@
   .sidepanel-filter {
     display: none;
   }
+  .offer-section{
+    display: none;
+  }
   .navbar-filter{
 	display: block;
   }
@@ -228,4 +231,12 @@ ul#footer-menu li {
   
   #myUL li a:hover:not(.header) {
 	background-color: #eee;
+  }
+  .offer-list{
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    list-style: none;
+  }
+  .offer-list li:before {
+    content: '✓';
   }

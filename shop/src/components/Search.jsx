@@ -56,10 +56,11 @@ const Search = ({ searchTxt, updatePayload }) => {
             <div></div>
           </div>
 
+          <small>Type at least 4 characters</small>
           {isLoading && <p style={{ color: "red" }}>Searching..</p>}
 
           <hr />
-
+          
           {/* {JSON.stringify(searchPayload)} */}
           {searchPayload.product_results !== undefined
             ? searchPayload.product_results.map((searchItem, index) => (

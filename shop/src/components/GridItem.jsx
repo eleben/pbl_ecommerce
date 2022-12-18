@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import CartContext from "../CartContext";
 import ItemDetail from "./ItemDetail";
-
+import {MdLocalOffer} from "react-icons/md";
 import { MdOutlineRequestQuote } from "react-icons/md";
 
 // const GridItem = ({ item }) => {
@@ -152,12 +152,11 @@ const GridItem = ({ item }) => {
               <p class="card-text">
                 {item.item_group} | Item Code: {item.item_code}
               </p>
-              {/* <p class="card-text">
-                <small class="text-muted">Last updated 3 mins ago</small>
-              </p> */}
+              {/* <span><MdLocalOffer/> <b>On offer! </b> <button type="button" class="btn btn-link">More details! </button></span>  */}
             </div>
           </div>
           <div class="col-md-4">
+         
             <br />
             <button style={{"margin-bottom":"5px"}} className="btn btn-primary btn-md" onClick={() => addToCart(item)}>
               <MdOutlineRequestQuote />

@@ -6,16 +6,21 @@ import { useContext } from "react";
 import Cart from "../pages/Cart";
 import { BsCart4 } from "react-icons/bs";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { MdLocalOffer } from "react-icons/md";
 // import {call} from 'frappe-react-sdk';
+import Swal from "sweetalert2";
+
 import Form from "react-bootstrap/Form";
 import Badge from "react-bootstrap/Badge";
 import Search from "./Search";
+import { fetchOffers } from "../assets/offers";
 
 const Featured = ({ itemsPayload }) => {
   //console.log("New World order ||");
   const { cartItems } = useContext(CartContext);
 
   //console.log(JSON.stringify(itemsPayload));
+
   const [pageData, setPageData] = useState(itemsPayload.items || []);
   let itemGroups = itemsPayload.items.map((row) => row.item_group);
   let uniqGrps = [...new Set(itemGroups)];
@@ -34,12 +39,13 @@ const Featured = ({ itemsPayload }) => {
     let exists = pageData.find((x) => x.item_code === item.item_code);
     if (!exists) {
       let updated = [...pageData, item];
-      setPageData(prevState=>updated)
+      setPageData((prevState) => updated);
     }
   };
   const [showCart, setShowCart] = useState(false);
   const launchCartModal = () => {
-    setShowCart(!showCart);
+    // setShowCart(prevState=>!showCart);
+    setShowCart((prevState) => !showCart);
   };
   const showItemDepartments = () => {
     setShowDepartments((currState) => !currState);
@@ -104,96 +110,20 @@ const Featured = ({ itemsPayload }) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  const performOffersSearch = (itemGroups) => {
+    let field_filters = { item_group: ["IN", itemGroups] };
+
+    fetchShopItemsWithFilter({ field_filters }).then((r) => {
+      // setPageData((prevState)=>{...pageData,...r.product_results})
+    });
+  };
   return (
     <>
       {showCart && <Cart setIsOpen={launchCartModal} />}
 
-      {pageData.length < 1 && <Search searchTxt updatePayload={handleUpdatePageData} />}
-
-      {/* <section
-        class="hero hero-normal"
-        style={{
-          position: "sticky",
-          top: "0",
-          background: "#f8f8f8",
-          padding: "10px 16px",
-          "z-index": "2",
-        }}
-      >
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-3">
-              <div class="hero__categories" onClick={showItemDepartments}>
-                <div class="hero__categories__all">
-                  <i class="fa fa-bars"></i>
-                  <span>All Categories</span>
-                </div>
-
-                <ul
-                  style={{
-                    display: showDepartments ? "block" : "none",
-                    height: "500px",
-                    overflow: "scroll",
-                  }}
-                >
-                  {uniqueItemGroups.map((itemGroup, key) => {
-                    return (
-                      <li key={key}>
-                        <small
-                          style={{ cursor: "pointer" }}
-                          onClick={() => {
-                            setGroupFilter((groupFilter) => itemGroup);
-                            filterByCategory(itemGroup);
-                          }}
-                        >
-                          {itemGroup} {` (${itemCountPerGroup(itemGroup)})`}
-                        </small>
-                        <hr />
-                      </li>
-                    );
-                  })}
-                </ul>
-                <p>
-                  <b>Filtered by: </b>
-                  {groupFilter}
-                </p>
-                <button
-                  class="btn btn-link"
-                  onClick={() => {
-                    setGroupFilter((groupFilter) => "All");
-                    filterByCategory("All");
-                  }}
-                >
-                  Clear Filter
-                </button>
-              </div>
-            </div>
-
-            <div class="col-lg-9">
-              <div class="hero__search">
-                <div class="hero__search__form">
-                  <form action="#">
-                    <input
-                      type="text"
-                      placeholder="Type to search"
-                      onChange={(e) => {
-                        filterSearch(e.target.value);
-                      }}
-                    />
-                  </form>
-                </div>
-                <div class="header__cart">
-               
-                  <p onClick={() => launchCartModal()}>
-                    <BsCart4 style={{ color: "green", "font-size": "48px" }} />
-                    <span> {cartItems.length}</span> Cart
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
+      {pageData.length < 1 && (
+        <Search searchTxt updatePayload={handleUpdatePageData} />
+      )}
 
       <nav
         class="navbar sticky-top navbar-light"
@@ -258,20 +188,32 @@ const Featured = ({ itemsPayload }) => {
             <div></div>
           </div>
 
-          <span class="navbar-text">
-            <button
+          {/* <span class="navbar-text"> */}
+          <span
+            class="navbar-text btn btn-success"
+            onClick={() => {
+              launchCartModal();
+              launchCartModal();
+            }}
+          >
+            <BsCart4 style={{ "font-size": "24px" }} />
+            {`  ${cartItems.length} In Cart`}
+          </span>
+          {/* <button
               style={{
-                border: "none",
-                background: "none",
-                color: "green",
-                "font-size": "20px",
+                // border: "none",
+                // background: "none",
+                // color: "green",
+                "font-size": "16px",
               }}
+              className = "btn btn-success"
               onClick={() => launchCartModal()}
             >
-              <BsCart4 style={{ color: "green", "font-size": "24px" }} />
+             
+              <BsCart4 style={{ "font-size": "24px" }} label ={`${cartItems.length} In Cart`} onClick={() => launchCartModal()} />
+            
               {cartItems.length} Cart
-            </button>
-          </span>
+            </button> */}
         </div>
       </nav>
 
@@ -326,100 +268,234 @@ const Featured = ({ itemsPayload }) => {
                 "All item Group"
               )}
             </div>
-          </div>
-          <div className="col-9">
-            <section class="featured spad content" style={{ padding: "16px" }}>
+          </div>{" "}
+          <>
+            <div className="col-9">
               <div class="container">
-                <div>
-                  {multipleGroupFilters !== undefined
-                    ? multipleGroupFilters.map((group, index) => (
-                        <>
-                          <Badge className="filterPill" bg="info">
-                            <p>
-                              {group}{" "}
-                              <AiOutlineCloseCircle
-                                onClick={() => {
-                                  handleGroupFilterSelect(group, false);
-                                }}
-                              />
-                            </p>
-                          </Badge>
-                        </>
-                      ))
-                    : "No filter selected"}
-
-                  {multipleGroupFilters.length > 0 || groupFilter !== "All" ? (
-                    <button
-                      class="btn btn-link"
-                      onClick={() => {
-                        setGroupFilter((groupFilter) => "All");
-                        filterByCategory("All");
-
-                        multipleGroupFilters.map((itemG) =>
-                          handleGroupFilterSelect(itemG, false)
-                        );
-                      }}
-                    >
-                      Clear Filters
-                    </button>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <br />
-                {/* <div class="row">
-            <div class="col-lg-12">
-              <div class="section-title">
-                <h2>Featured Products</h2>
-              </div>
-              <div class="featured__controls">
-                <ul>
-                  <li
-                    class="active"
-                    onClick={() => {
-                      setGroupFilter((groupFilter) => "All");
-                      filterByCategory("All");
-                    }}
+                <div className="row">
+                  <section
+                    class="featured spad content"
+                    style={{ padding: "16px" }}
                   >
-                    All
-                  </li>
-                  {itemsPayload.featured_item_groups.map((row) => (
-                    <li
-                      class={groupFilter === row ? "active" : ""}
-                      data-filter={row}
-                      onClick={() => {
-                        setGroupFilter((groupFilter) => row);
-                        filterByCategory(row);
-                      }}
-                    >
-                      {row}
-                      {`(${itemCountPerGroup(row)})`}
-                    </li>
-                  ))}
-                </ul>
+                    <div class="container">
+                      <div>
+                        {multipleGroupFilters !== undefined
+                          ? multipleGroupFilters.map((group, index) => (
+                              <>
+                                <Badge className="filterPill" bg="info">
+                                  <p>
+                                    {group}{" "}
+                                    <AiOutlineCloseCircle
+                                      onClick={() => {
+                                        handleGroupFilterSelect(group, false);
+                                      }}
+                                    />
+                                  </p>
+                                </Badge>
+                              </>
+                            ))
+                          : "No filter selected"}
+
+                        {multipleGroupFilters.length > 0 ||
+                        groupFilter !== "All" ? (
+                          <button
+                            class="btn btn-link"
+                            onClick={() => {
+                              setGroupFilter((groupFilter) => "All");
+                              filterByCategory("All");
+
+                              multipleGroupFilters.map((itemG) =>
+                                handleGroupFilterSelect(itemG, false)
+                              );
+                            }}
+                          >
+                            Clear Filters
+                          </button>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                      <br />
+                     
+                      
+                      <div class="row">
+                      <OffersSection />
+                        <br />
+                        {pageData.map((row, id) =>
+                          multipleGroupFilters.includes(row.item_group) ||
+                          multipleGroupFilters.length < 1 ? (
+                            <GridItem key={id} item={row} />
+                          ) : (
+                            ""
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </section>
+                </div>{" "}
+              </div>{" "}
+            </div>
+          </>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const OffersSection = () => {
+  const [offers, setOffers] = useState(null);
+
+  const randomThree = (array) => {
+    let n = 3;
+
+    let shuffled = array.sort(function () {
+      return 0.5 - Math.random();
+    });
+
+    let selected = shuffled.slice(0, n);
+
+    return selected;
+  };
+  const alertAnOffer = (offer) => {
+    Swal.fire({
+      title: `<strong>
+           <u>${offer.name}</u>
+        </strong>`,
+
+      html: `
+          <h4>${offer.offer_detail}</h4>
+          <em>Expires on ${offer.offer_expiry}</em>
+        `,
+      showCloseButton: true,
+      showCancelButton: false,
+      focusConfirm: false,
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+      confirmButtonAriaLabel: "Noted, great!",
+    });
+  };
+  useEffect(() => {
+    fetchOffers().then((r) => {
+      setOffers((prevState) => r);
+    });
+  }, []);
+  return (
+    <>
+      {offers === null || !offers ? (
+        <div></div>
+      ) : (
+        <div class="col-12">
+          <div class="card border-success mb-3 offer-section">
+            <div class="card-body">
+              <h4 class="card-title">
+                <MdLocalOffer /> <b>We have Offers!</b>
+              </h4>
+              <div class="row">
+                {/* <div class="col-9" >
+                  <ImageCarousel listing={offers} style={{width:"100%"}}/>
+                </div> */}
+                <div class="col-3">
+                  <div className="altImageStyle" style={{ cursor: "pointer" }}>
+                    OFFER
+                  </div>
+                </div>
+                <div class="col-9">
+                  <ul className="offer-list">
+                    {randomThree(offers).map((offer, id) => (
+                      <li>
+                        <b>{offer.name}</b>
+                        <button
+                          type="button"
+                          class="btn btn-link"
+                          onClick={() => alertAnOffer(offer)}
+                        >
+                          Learn more
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  {offers.length > 3 && (
+                    <button type="button" class="btn btn-link">
+                      More offers...
+                    </button>
+                  )}
+                  <br />
+                </div>
               </div>
             </div>
-          </div> */}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
 
-                {/* <div class="row featured__filter">
-            {pageData.map((row, id) => (
-              <GridItem key={id} item={row} />
-              
+const ImageCarousel = ({ listing }) => {
+  return (
+    <>
+      <div class="container">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          {/* <!-- Indicators --> */}
+          <ol class="carousel-indicators">
+            {listing.map((item, id) => (
+              <li
+                data-target="#myCarousel"
+                data-slide-to={String(id)}
+                class={id === 0 ? "active" : ""}
+              ></li>
             ))}
-          </div> */}
-                <div class="row">
-                  {pageData.map((row, id) =>
-                    multipleGroupFilters.includes(row.item_group) ||
-                    multipleGroupFilters.length < 1 ? (
-                      <GridItem key={id} item={row} />
-                    ) : (
-                      ""
-                    )
-                  )}
+
+            {/* <li data-target="#myCarousel" data-slide-to="1"></li> */}
+            {/* <li data-target="#myCarousel" data-slide-to="2"></li> */}
+          </ol>
+
+          {/* <!-- Wrapper for slides --> */}
+          <div class="carousel-inner">
+            {listing.map((item, id) => (
+              <div class="item active">
+                <div className="altImageStyle" style={{ cursor: "pointer" }}>
+                  {item.name.slice(0, 5).toUpperCase()}
+                </div>
+                <div class="carousel-caption">
+                  <h3>{item.offer_detail}</h3>
+                  <p>{item.offer_expiry}</p>
                 </div>
               </div>
-            </section>
+            ))}
+
+            {/* <div class="item">
+              <div className="altImageStyle" style={{ cursor: "pointer" }}>
+                OFFER2
+              </div>
+              <div class="carousel-caption">
+                <h3>Chicago</h3>
+                <p>Thank you, Chicago!</p>
+              </div>
+            </div>
+
+            <div class="item">
+              <div className="altImageStyle" style={{ cursor: "pointer" }}>
+                OFFER3
+              </div>
+              <div class="carousel-caption">
+                <h3>New York</h3>
+                <p>We love the Big Apple!</p>
+              </div>
+            </div> */}
           </div>
+
+          {/* <!-- Left and right controls --> */}
+          <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a
+            class="right carousel-control"
+            href="#myCarousel"
+            data-slide="next"
+          >
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Next</span>
+          </a>
         </div>
       </div>
     </>

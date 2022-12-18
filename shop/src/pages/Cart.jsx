@@ -12,7 +12,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import { getCookie } from "../cookie";
 import { submitQuote } from "../assets/cartSubmit";
 
-const Cart = () => {
+const Cart = ({setIsOpen}) => {
   const [lgShow, setLgShow] = useState(true);
   const { cartItems, removeFromCart, emptyCart } = useContext(CartContext);
 
@@ -84,7 +84,6 @@ const Cart = () => {
         fullscreen={true}
         onHide={() => {
           setLgShow((lgShow) => !lgShow);
-          setIsOpen(lgShow);
         }}
         aria-labelledby="example-modal-sizes-title-lg"
         // style={{"z-index": "3"}}

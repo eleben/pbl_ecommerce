@@ -42,3 +42,7 @@ def make_quote(quote_args=None):
 		error_message = dict(exception="Data Error: f{e}" ,exc_type="Data Error", exc=f"{e}")
 		# frappe.response(error_message)
 		return error_message
+@frappe.whitelist(allow_guest=True)
+def shopping_cart_offers():
+    date_today = datetime.date.today()
+    return frappe.get_all("Shopping Cart Offer", fields =["*"], filters=dict(offer_expiry=[">=", date_today]))

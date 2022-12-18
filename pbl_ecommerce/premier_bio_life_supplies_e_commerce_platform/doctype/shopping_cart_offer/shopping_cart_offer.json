@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:offer_name",
+ "creation": "2022-12-17 15:00:32.309165",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "offer_name",
+  "applies_to_item_group",
+  "item_group",
+  "item",
+  "offer_detail",
+  "offer_expiry"
+ ],
+ "fields": [
+  {
+   "fieldname": "offer_name",
+   "fieldtype": "Data",
+   "label": "Offer Name",
+   "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "applies_to_item_group",
+   "fieldtype": "Check",
+   "label": "Applies to Item Group"
+  },
+  {
+   "depends_on": "eval:doc.applies_to_item_group",
+   "fieldname": "item_group",
+   "fieldtype": "Link",
+   "label": "Item Group",
+   "mandatory_depends_on": "eval:doc.applies_to_item_group",
+   "options": "Item Group"
+  },
+  {
+   "depends_on": "eval:!doc.applies_to_item_group",
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "mandatory_depends_on": "eval:!doc.applies_to_item_group",
+   "options": "Item"
+  },
+  {
+   "fieldname": "offer_detail",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Offer Detail",
+   "reqd": 1
+  },
+  {
+   "fieldname": "offer_expiry",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Offer Expiry",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2022-12-17 15:03:47.599487",
+ "modified_by": "Administrator",
+ "module": "Premier Bio-Life Supplies E Commerce platform",
+ "name": "Shopping Cart Offer",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
