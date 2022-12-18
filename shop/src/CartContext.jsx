@@ -6,6 +6,7 @@ const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cartItems, setItems] = useState([]);
+  const [keys, setKeys] = useState({})
 
   useEffect(() => {
     setItems((prevState) => getCookie("cart_items") || []);
@@ -15,6 +16,9 @@ export function CartProvider({ children }) {
       prevState.filter((cartItem) => cartItem.item_code !== item_code)
     );
   };
+  const setKeysGlobally =(args) =>{
+    setKeys(prevState=>args)
+  }
   const addToCart = (addedItem) => {
     let loggedInuser = getCookie("user_id");
     if (!loggedInuser || loggedInuser === undefined) {
@@ -54,6 +58,7 @@ export function CartProvider({ children }) {
         removeFromCart,
         addToCartWithQty,
         emptyCart,
+        setKeysGlobally
       }}
     >
       {children}

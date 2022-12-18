@@ -1,20 +1,27 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 
+import {authDetails} from "./assets/auth"
 
 import Landing from './pages/Landing'
 
-import { CartProvider} from './CartContext'
+import CartContext, { CartProvider} from './CartContext'
 import { fetchShopItems } from "./assets/shopItems";
 function App() {
   const [payload, setPayload] = useState({})
+  // const {setKeysGlobally} = useContext(CartContext)
   const loadContext =()=>{
     fetchShopItems().then(r =>{
 
       setPayload((prevState)=>r)
     })
   }
+  // const loadKeys = () =>{
+  //   authDetails().then(r=>{
+      
+  //   })
+  // }
   useEffect(()=>{
     loadContext();
   },[])

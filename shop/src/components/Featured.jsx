@@ -8,12 +8,14 @@ import { BsCart4 } from "react-icons/bs";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { MdLocalOffer } from "react-icons/md";
 // import {call} from 'frappe-react-sdk';
+import { fetchShopItemsWithFilter } from "../assets/shopItemsFilter";
 import Swal from "sweetalert2";
 
 import Form from "react-bootstrap/Form";
 import Badge from "react-bootstrap/Badge";
 import Search from "./Search";
 import { fetchOffers } from "../assets/offers";
+import HeroBanner from "./banner.jpg";
 
 const Featured = ({ itemsPayload }) => {
   //console.log("New World order ||");
@@ -42,6 +44,7 @@ const Featured = ({ itemsPayload }) => {
       setPageData((prevState) => updated);
     }
   };
+  const handleDeepSearch = () => {};
   const [showCart, setShowCart] = useState(false);
   const launchCartModal = () => {
     // setShowCart(prevState=>!showCart);
@@ -83,10 +86,30 @@ const Featured = ({ itemsPayload }) => {
       return;
     }
     const regexp = new RegExp(value, "i");
-    //console.log(value);
-    setPageData((pageData) =>
-      itemsPayload.items.filter((item) => regexp.test(item.web_item_name))
+
+    let filteredData = itemsPayload.items.filter((item) =>
+      // regexp.test(item.web_item_name)
+      {
+        let itemDescription = item.web_item_name;
+        return itemDescription.toLowerCase().match(value.toLowerCase());
+      }
     );
+    // console.log(JSON.stringify(filteredData));
+    if (filteredData.length < 1) {
+      fetchShopItemsWithFilter(searchTxt).then((r) => {
+        if (r !== undefined) {
+          r.product_results.forEach((searchItem) => {
+            setPageData((prevState) => [...pageData, searchItem]);
+            // setPageData((prevState) => [...pageData, searchItem]);
+            // handleUpdatePageData(searchItem);
+            // filterSearch(value);
+          });
+        }
+      });
+      
+      return;
+    }
+    setPageData((pageData) => filteredData);
   };
   const filterByCategory = (category) => {
     if (category === "" || category === undefined || category === "All") {
@@ -121,9 +144,13 @@ const Featured = ({ itemsPayload }) => {
     <>
       {showCart && <Cart setIsOpen={launchCartModal} />}
 
-      {pageData.length < 1 && (
-        <Search searchTxt updatePayload={handleUpdatePageData} />
-      )}
+      {/* {searchTxt} */}
+      {/* {pageData.length < 1 && <p style={{"color":"red"}}>Searching..</p>
+      // <Search searchTxt updatePayload={handleUpdatePageData} />
+      // <div id="preloder">
+      //   <div class="loader"></div>
+      // </div>
+      } */}
 
       <nav
         class="navbar sticky-top navbar-light"
@@ -132,7 +159,7 @@ const Featured = ({ itemsPayload }) => {
         <div className="container">
           <div class="dropdown navbar-filter">
             <button
-              class="btn btn-success dropdown-toggle"
+              class="btn btn-success dropdown-toggle "
               type="button"
               id="dropdownMenuButton"
               data-toggle="dropdown"
@@ -199,21 +226,6 @@ const Featured = ({ itemsPayload }) => {
             <BsCart4 style={{ "font-size": "24px" }} />
             {`  ${cartItems.length} In Cart`}
           </span>
-          {/* <button
-              style={{
-                // border: "none",
-                // background: "none",
-                // color: "green",
-                "font-size": "16px",
-              }}
-              className = "btn btn-success"
-              onClick={() => launchCartModal()}
-            >
-             
-              <BsCart4 style={{ "font-size": "24px" }} label ={`${cartItems.length} In Cart`} onClick={() => launchCartModal()} />
-            
-              {cartItems.length} Cart
-            </button> */}
         </div>
       </nav>
 
@@ -227,8 +239,8 @@ const Featured = ({ itemsPayload }) => {
       <div className="container">
         <div className="row">
           <div
-            className="col-3 sidepanel-filter"
-            style={{ overflow: "scroll" }}
+            className="col-3 sidepanel-filter hero__categories"
+            // style={{ overflow: "scroll" }}
           >
             <div classname="container">
               <p>All Item Groups</p>
@@ -316,10 +328,24 @@ const Featured = ({ itemsPayload }) => {
                         )}
                       </div>
                       <br />
-                     
-                      
-                      <div class="row">
-                      <OffersSection />
+                      {pageData.length < 1 && searchTxt.length > 3 && (
+                        <h4 style={{ color: "red" }}>
+                          Searching, please wait..
+                        </h4>
+                      )}
+
+                      {/* {JSON.stringify(pageData)} */}
+                      <HeroSection />
+                      <br />
+
+                      <div
+                        class="row"
+                        id="item-listing"
+                        data-bs-spy="scroll"
+                        data-bs-target="#nav-scr"
+                      >
+                        {/* <OffersSection /> */}
+
                         <br />
                         {pageData.map((row, id) =>
                           multipleGroupFilters.includes(row.item_group) ||
@@ -501,5 +527,25 @@ const ImageCarousel = ({ listing }) => {
     </>
   );
 };
-
+const HeroSection = () => {
+  return (
+    <>
+      {/* "/assets/pbl_ecommerce/banner.jpg" */}
+      <div class="hero__item set-bg main-hero">
+        {/* {window.location.origin} */}
+        <div class="hero__text">
+          <span>Quality Equipment</span>
+          <h2>
+            At amazing <br />
+            Prices
+          </h2>
+          <p>Free Pickup, Warranty and Delivery available</p>
+          <a href="#item-listing" id="nav-scr" class="primary-btn">
+            SHOP NOW
+          </a>
+        </div>
+      </div>
+    </>
+  );
+};
 export default Featured;

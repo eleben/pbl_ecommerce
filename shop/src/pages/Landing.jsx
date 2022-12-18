@@ -8,7 +8,7 @@ const Landing = ({ cartPayload }) => {
     <>
       <Header />
 
-      {cartPayload.items === undefined ? (
+      {cartPayload.items === undefined  ? (
         <div id="preloder">
           <div class="loader"></div>
         </div>

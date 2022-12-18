@@ -1,12 +1,65 @@
 /* @import "assets/css/bootstrap.min"; */
-@import "assets/css/font-awesome.min";
-@import "assets/css/elegant-icons";
-@import "assets/css/nice-select";
-@import "assets/css/jquery-ui.min";
-@import "assets/css/owl.carousel.min";
-@import "assets/css/slicknav.min";
-@import "assets/css/style";
+@import "./assets/css/font-awesome.min";
+@import "./assets/css/elegant-icons";
+@import "./assets/css/nice-select";
+@import "./assets/css/jquery-ui.min";
+@import "./assets/css/owl.carousel.min";
+@import "./assets/css/slicknav.min";
+@import "./assets/css/style";
 
+html,
+body {
+	height: 100%;
+	font-family: "Cairo", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li {
+	margin: 0;
+	color: #111111;
+	font-weight: 400;
+	font-family: "Cairo", sans-serif;
+}
+
+h1 {
+	font-size: 70px;
+}
+
+h2 {
+	font-size: 36px;
+}
+
+h3 {
+	font-size: 30px;
+}
+
+h4 {
+	font-size: 24px;
+}
+
+h5 {
+	font-size: 18px;
+}
+
+h6 {
+	font-size: 16px;
+}
+
+p {
+	font-size: 16px;
+	font-family: "Cairo", sans-serif;
+	color: #6f6f6f;
+	font-weight: 400;
+	line-height: 26px;
+	margin: 0 0 15px 0;
+}
 @media only screen and (max-width: 600px) {
   .sidepanel-filter {
     display: none;
@@ -240,3 +293,46 @@ ul#footer-menu li {
   .offer-list li:before {
     content: '✓';
   }
+
+  .main-hero{
+    background-image: url('./components/banner.jpg');
+  }
+
+  .car-container{
+    width: 100%;
+    display:block;
+    overflow:hidden;
+  }
+  .carousel{
+    display:block;
+    width: 100%;
+    height: 150px;
+    /* background: white; */
+    overflow-x: scroll;
+    padding: 10px;
+    margin: 0;
+    white-space: nowrap; 
+    border-top: 2px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  }
+  .item {
+      display: inline-block;
+      /* width: 80px; */
+      margin: 0 10px;
+      height: 150px;
+      /* background: rgba(0, 0, 0, 0.05) no-repeat center center; */
+      background-size: cover;
+      position:relative;
+      border-radius: 20px;
+      box-shadow: 0 0 10px #dfdfdf;
+  }
+  .item div{
+    width: 100%;
+    top:10%;
+    position:absolute;
+    text-align:center;
+    /* font-size: 9em; */
+    color: white;
+    height: 50px;
+  }
+  

@@ -1,10 +1,47 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
+import { fetchOffers } from "../assets/offers";
 import CartContext from "../CartContext";
 
 import { getCookie } from "../cookie";
 const Header = () => {
   const { loading } = useContext(CartContext);
+
+  const [offers, setOffers] = useState(null);
+
+  const randomThree = (array) => {
+    let n = 3;
+
+    let shuffled = array.sort(function () {
+      return 0.5 - Math.random();
+    });
+
+    let selected = shuffled.slice(0, n);
+
+    return selected;
+  };
+  const alertAnOffer = (offer) => {
+    Swal.fire({
+      title: `<strong>
+           <u>${offer.name}</u>
+        </strong>`,
+
+      html: `
+          <h4>${offer.offer_detail}</h4>
+          <em>Expires on ${offer.offer_expiry}</em>
+        `,
+      showCloseButton: true,
+      showCancelButton: false,
+      focusConfirm: false,
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
+      confirmButtonAriaLabel: "Noted, great!",
+    });
+  };
+  useEffect(() => {
+    fetchOffers().then((r) => {
+      setOffers((prevState) => r);
+    });
+  }, []);
 
   return (
     <>
@@ -170,33 +207,37 @@ const Header = () => {
             </div>
           </div>
         </div>
-        {/* <div class="container">
+        <div class="container">
           <div class="row">
-            <div class="col-lg-3">
-              <div class="header__logo">
-                <a href="./index.html">
-                  <img src="img/logo.png" alt="" />
-                </a>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              
-            </div>
-            <div class="col-lg-3">
-              <br />
-              <div class="hero__search__phone">
-                
-              </div>
-              
+            <div class="col-lg-12">
+              {/* <ImageCarousel listing={offers} style={{width:"100%"}}/> */}
+              {/* <OffersCarousel  /> */}
             </div>
           </div>
           <div class="humberger__open">
             <i class="fa fa-bars"></i>
           </div>
-        </div> */}
+        </div>
       </header>
+    </>
+  );
+};
 
-      
+const OffersCarousel = () => {
+  return (
+    <>
+      <div class="car-container">
+        <div class="carousel">
+          {["SM", "IA", "BBA", "DAP", "ZZ"].map((group, id) => (
+            <div id="some-div" class="item">
+             
+              <p className="">{group}</p>
+              
+            </div>
+          ))}
+        </div>
+        {/* <h1>This is a continue scroll carousel</h1> */}
+      </div>
     </>
   );
 };
