@@ -14,7 +14,7 @@ import { submitQuote } from "../assets/cartSubmit";
 
 const Cart = ({setIsOpen}) => {
   const [lgShow, setLgShow] = useState(true);
-  const { cartItems, removeFromCart, emptyCart } = useContext(CartContext);
+  const { cartItems, removeFromCart, emptyCart, keys } = useContext(CartContext);
 
   const [submitting, setSubmitting] = useState(false);
   let inCart = cartItems.map((itm) => itm.item_code);
@@ -40,7 +40,7 @@ const Cart = ({setIsOpen}) => {
   const submitOrder = (payloadItemsToSubmit) => {
     let loggedInUser = getCookie("user_id");
     Swal.fire({
-      title: `Posting an RFQ for ${uniqueCartItems.length} items as ${loggedInUser}`,
+      title: `Posting an RFQ for ${uniqueCartItems.length} items`,
       text: "Price quotation and taxes will shared to your email. Are you sure to send this request for quotation?",
       icon: "warning",
       showCancelButton: true,
@@ -49,24 +49,23 @@ const Cart = ({setIsOpen}) => {
       confirmButtonText: "This is ok, send it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        setSubmitting((prevState) => true);
+       // setSubmitting((prevState) => true);
         let user = getCookie("user_id");
-        submitQuote(user, payloadItemsToSubmit).then((r) => {
-          setSubmitting((prevState) => false);
-          if (r.exception) {
-            Swal.fire("Error!", `${r.exc_type} .`, "danger");
-            return;
-          }
+       submitQuote(user, payloadItemsToSubmit,keys).then((r) => {
+         // setSubmitting((prevState) => false);
+          
           if (r.message.exception !== undefined) {
-            Swal.fire("Error!", `${r.message.error} .`, "danger");
+            Swal.fire("Error!", `An error has occured. Please contact support.`, "error");
             return;
           }
+          setLgShow((prevState)=>false)
           Swal.fire(
             "Posted!",
             `Your quotation has been submitted under ID ${r.message} .`,
             "success"
           );
           emptyCart();
+          window.reload()
         });
       }
     });

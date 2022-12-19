@@ -186,7 +186,7 @@ user_data_fields = [
 # Recommended only for DocTypes which have limited documents with untranslated names
 # For example: Role, Gender, etc.
 # translated_search_doctypes = []
-
+fixtures =["Web Page","File"]
 website_route_rules = [{'from_route': '/shop', 'to_route': 'shop'},
                        {'from_route': '/quote', 'to_route': 'quote'},
                        {'from_route': '/', 'to_route': 'shop'},

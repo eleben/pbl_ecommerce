@@ -20,6 +20,21 @@ const Header = () => {
 
     return selected;
   };
+  const getInitials = (name) => {
+    if (name === undefined || name === null || name === "") {
+      name = "Guest User";
+    }
+
+    let names = name.split(" ");
+
+    if (names.length === 1) {
+      return names[0].slice(0, 2).toUpperCase();
+    }
+    return names
+      .slice(0, 2)
+      .map((i) => i.charAt(0))
+      .join("").toUpperCase();
+  };
   const alertAnOffer = (offer) => {
     Swal.fire({
       title: `<strong>
@@ -137,9 +152,9 @@ const Header = () => {
           <a href="#">
             <i class="fa fa-linkedin"></i>
           </a>
-          <a href="#">
+          {/* <a href="#">
             <i class="fa fa-pinterest-p"></i>
-          </a>
+          </a> */}
         </div>
         <div class="humberger__menu__contact">
           <ul>
@@ -177,9 +192,7 @@ const Header = () => {
                     <a href="#">
                       <i class="fa fa-linkedin"></i>
                     </a>
-                    <a href="#">
-                      <i class="fa fa-pinterest-p"></i>
-                    </a>
+            
                   </div>
                   {/* <div class="header__top__right__language">
                       <img src="img/language.png" alt="" />
@@ -195,12 +208,18 @@ const Header = () => {
                       </ul>
                     </div> */}
                   <div class="header__top__right__auth">
-                    <p>{getCookie("full_name") || "N/A"}</p>
-                    {getCookie("full_name") === "Guest" && (
+                    <div className="altImageStyleLogin">
+                      {getInitials(getCookie("full_name") || "Guest User")}
+                    </div>
+                    
+                    {getCookie("full_name") === "Guest" ? (
                       <a href="/login">
                         <i class="fa fa-user"></i> Login
+                      </a>): (<a href="/?cmd=web_logout">
+                        <i class="fa fa-arrow-left"></i> Logout
                       </a>
                     )}
+                    
                   </div>
                 </div>
               </div>
@@ -230,9 +249,7 @@ const OffersCarousel = () => {
         <div class="carousel">
           {["SM", "IA", "BBA", "DAP", "ZZ"].map((group, id) => (
             <div id="some-div" class="item">
-             
               <p className="">{group}</p>
-              
             </div>
           ))}
         </div>

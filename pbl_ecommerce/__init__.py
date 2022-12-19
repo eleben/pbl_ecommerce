@@ -1,6 +1,7 @@
 
 __version__ = '0.0.1'
 import frappe,json, datetime
+from frappe.website.doctype.website_settings.website_settings import get_website_settings
 @frappe.whitelist(allow_guest=True)
 def make_quote(quote_args=None):
 	try:
@@ -35,17 +36,23 @@ def make_quote(quote_args=None):
 			row.stock_uom = item_dict.get("stock_uom")
 			row.item_group = item_dict.get("item_group")
 			row.conversion_factor = 1
-		doc.save()
+		doc.save(ignore_permissions=True)
 		frappe.db.commit()
 		return doc.name
 	except Exception as e:
-		error_message = dict(exception="Data Error: f{e}" ,exc_type="Data Error", exc=f"{e}")
+		error_message = dict(exception="Data Error: {}".format(e) ,exc_type="Data Error", exc=f"{e}")
 		# frappe.response(error_message)
 		return error_message
 @frappe.whitelist(allow_guest=True)
 def shopping_cart_offers():
     date_today = datetime.date.today()
     return frappe.get_all("Shopping Cart Offer", fields =["*"], filters=dict(offer_expiry=[">=", date_today]))
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def get_guest_access_keys():
-    return frappe.get_all("Credentials",fields=["*"])
+    return frappe.get_single("Credentials")
+@frappe.whitelist(allow_guest=True)
+def get_default_pbl_404():
+    return frappe.get_value("Web Page","pbl-404","main_section_html")
+@frappe.whitelist(allow_guest=True)
+def footer_info():
+    return get_website_settings()

@@ -7,7 +7,7 @@ const Search = ({ searchTxt, updatePayload }) => {
   const [lgShow, setLgShow] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [searchPayload, setSearchPayload] = useState({});
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, keys } = useContext(CartContext);
   const filterSearch = (str) => {
     if (str === undefined || str === "") {
       return;
@@ -16,7 +16,7 @@ const Search = ({ searchTxt, updatePayload }) => {
       return;
     }
     setIsLoading((prevState) => true);
-    fetchShopItemsWithFilter(str).then((r) => {
+    fetchShopItemsWithFilter(str,keys).then((r) => {
       setSearchPayload(r);
       setIsLoading((prevState) => false);
     });
