@@ -24,7 +24,7 @@ const Featured = ({ itemsPayload }) => {
 
   const [pageData, setPageData] = useState(itemsPayload.items || []);
   let itemGroups = itemsPayload.items.map((row) => row.item_group);
-  let uniqGrps = [...new Set(itemGroups)];
+  let uniqGrps = [...new Set(itemGroups)].sort();
   const [uniqueItemGroups, setUniqueItemGroups] = useState(uniqGrps || []);
   const [sidePanelGroups, setSidePanelGroups] = useState(uniqGrps || []);
 
