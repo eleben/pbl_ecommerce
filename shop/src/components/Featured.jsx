@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 import Form from "react-bootstrap/Form";
 import Badge from "react-bootstrap/Badge";
 import { fetchOffers } from "../assets/offers";
+import { companyDetails } from "../assets/companyInfo";
 
 const Featured = ({ itemsPayload }) => {
   //console.log("New World order ||");
@@ -489,6 +490,12 @@ const HeroWithSearch = ({ searchTxt, handleSearchTxtUpdate, handleSearch }) => {
     // setShowCart(prevState=>!showCart);
     setShowCart((prevState) => !showCart);
   };
+  const [companyInfo, setCompanyInfo] = useState(null);
+  useEffect(() => {
+    companyDetails().then((r) => {
+      setCompanyInfo((prevState) => r);
+    });
+  }, []);
   return (
     <section class="hero">
       <div class="container">
@@ -523,8 +530,10 @@ const HeroWithSearch = ({ searchTxt, handleSearchTxtUpdate, handleSearch }) => {
                 <div class="hero__search__phone__icon">
                   <i class="fa fa-phone"></i>
                 </div>
+
                 <div class="hero__search__phone__text">
-                  <h5>+65 11.188.888</h5>
+
+                  {companyInfo && <h5>{companyInfo.phone_no}</h5>}
                   <span>support 24/7 time</span>
                   
                 </div>
