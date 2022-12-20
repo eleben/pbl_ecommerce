@@ -78,6 +78,7 @@ const Cart = ({setIsOpen}) => {
         </div>
       )}
       <Modal
+        id="cart-modal"
         size="lg"
         show={lgShow}
         fullscreen={true}

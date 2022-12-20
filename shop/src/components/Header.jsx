@@ -4,7 +4,11 @@ import { fetchOffers } from "../assets/offers";
 import CartContext from "../CartContext";
 
 import { getCookie } from "../cookie";
-const Header = () => {
+
+import logoImg from "./logo.png"
+
+
+const Header1 = () => {
   const { loading } = useContext(CartContext);
 
   const [offers, setOffers] = useState(null);
@@ -52,6 +56,8 @@ const Header = () => {
       confirmButtonAriaLabel: "Noted, great!",
     });
   };
+
+  
   useEffect(() => {
     fetchOffers().then((r) => {
       setOffers((prevState) => r);
@@ -68,9 +74,10 @@ const Header = () => {
       <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
           <a href="#">
-            <img src="img/logo.png" alt="" />
+            <img src="https://c8.alamy.com/comp/2J2TJ6C/circular-letter-b-abstract-lab-logo-can-be-used-for-business-science-health-medical-laboratory-logo-2J2TJ6C.jpg" alt="" className="logoImg"/>
           </a>
         </div>
+        supposda
         <div class="humberger__menu__cart">
           <ul>
             <li>
@@ -242,21 +249,88 @@ const Header = () => {
   );
 };
 
-const OffersCarousel = () => {
-  return (
+const Header = () =>{
+  const {cartItems} = useContext(CartContext)
+
+ 
+   return (
     <>
-      <div class="car-container">
-        <div class="carousel">
-          {["SM", "IA", "BBA", "DAP", "ZZ"].map((group, id) => (
-            <div id="some-div" class="item">
-              <p className="">{group}</p>
+       <header class="header" id="myHeader">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+                                <li>Free Shipping for all Order of $99</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+                            <div class="header__top__right__social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                            </div>
+                            <div class="header__top__right__language">
+                                <img src="img/language.png" alt=""/>
+                                <div>English</div>
+                                <span class="arrow_carrot-down"></span>
+                                <ul>
+                                    <li><a href="#">Spanis</a></li>
+                                    <li><a href="#">English</a></li>
+                                </ul>
+                            </div>
+                            <div class="header__top__right__auth">
+                                <a href="#"><i class="fa fa-user"></i> Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          ))}
         </div>
-        {/* <h1>This is a continue scroll carousel</h1> */}
-      </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <a href="./index.html"><img src="img/logo.png" alt=""/></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <nav class="header__menu">
+                        <ul>
+                            <li class="active"><a href="./index.html">Home</a></li>
+                            {/* <!-- <li><a href="./shop-grid.html">Shop</a></li> --> */}
+                            <li><a href="#">Pages</a>
+                                <ul class="header__menu__dropdown">
+                                    {/* <!-- <li><a href="./shop-details.html">Shop Details</a></li> --> */}
+                                    {/* <!-- <li><a href="./shoping-cart.html">Shoping Cart</a></li> --> */}
+                                    <li><a href="./checkout.html">Check Out</a></li>
+                                   
+                                </ul>
+                            </li>
+                           
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__cart">
+                        <ul>
+                            <li><a id="shopping-cart-btn"><i class="fa fa-shopping-bag"></i> <span>{cartItems.length || 0}</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="humberger__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
     </>
-  );
-};
+   )
+}
 
 export default Header;

@@ -366,3 +366,7 @@ ul#footer-menu li {
   width: 50px;
   position: absolute;
 }
+
+.logoImg{
+  content: url("./components/logo.png");
+}

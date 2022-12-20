@@ -128,7 +128,7 @@ const Featured = ({ itemsPayload }) => {
     );
     return filtered.length || 0;
   };
-
+  
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -216,7 +216,6 @@ const Featured = ({ itemsPayload }) => {
             <div></div>
           </div>
 
-          {/* <span class="navbar-text"> */}
           <span
             class="navbar-text btn btn-success"
             onClick={() => {

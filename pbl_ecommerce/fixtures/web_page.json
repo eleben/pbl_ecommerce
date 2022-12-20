@@ -57,7 +57,7 @@
   "meta_description": null,
   "meta_image": null,
   "meta_title": null,
-  "modified": "2022-12-19 22:09:40.919359",
+  "modified": "2022-12-20 19:56:47.895086",
   "name": "pbl-landing-page",
   "page_blocks": [
    {
@@ -71,7 +71,7 @@
     "parentfield": "page_blocks",
     "parenttype": "Web Page",
     "web_template": "Hero with Right Image",
-    "web_template_values": "{\"title\":\"Where <b style=\\\"color:green\\\">Science</b> Meets <u>Quality.</u>\",\"subtitle\":\"Engage with us for high grade instruments, equipment, reagents e.t.c at <b style=\\\"color:green\\\">amazing</b> prices. We will help you achieve the highest standards in your practice\\n<hr>\\n<address>\\nVisit us at:<br>\\nPremier Bio-Life Supplies.<br> \\nHarlequins Garden<br>\\nExample.com<br>\\nJoseph Kangethe Rd. | off Ngong Rd<br>\\nNairobi, Kenya\\n</address>\\n\\n\",\"image\":\"/files/lab-sales-6.jpg\",\"contain_image\":1,\"primary_action_label\":\"Request a Quote\",\"primary_action\":\"/shop\",\"secondary_action_label\":\"Past Quotations\",\"secondary_action\":\"/quotations\"}"
+    "web_template_values": "{\"title\":\"Where <b style=\\\"color:green\\\">Science</b> Meets <u>Quality.</u>\",\"subtitle\":\"Engage with us for high grade instruments, equipment, reagents e.t.c at <b style=\\\"color:green\\\">amazing</b> prices. We will help you achieve the highest standards in your practice\\n<hr>\\n<address>\\nVisit us at:<br>\\nPremier Bio-Life Supplies.<br> \\nHarlequins Garden<br>\\nExample.com<br>\\nJoseph Kangethe Rd. | off Ngong Rd<br>\\nNairobi, Kenya\\n</address>\\n\\n\",\"image\":\"https://media.licdn.com/dms/image/C5622AQGtdXRo0rh2qg/feedshare-shrink_800/0/1640215189909?e=2147483647&v=beta&t=NXr38zMrb4KpVQ4AfVPLBhTDIhNUQ1DoGeIJzTf6dvk\",\"contain_image\":0,\"primary_action_label\":\"Request a Quote\",\"primary_action\":\"/shop\",\"secondary_action_label\":\"Past Quotations\",\"secondary_action\":\"/quotations\"}"
    }
   ],
   "parent": null,

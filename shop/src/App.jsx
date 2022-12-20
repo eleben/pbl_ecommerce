@@ -52,6 +52,15 @@ function App() {
               </CartProvider>
             }
           />
+          <Route
+            path="/timex"
+            exact
+            element={
+              <CartProvider>
+                <Landing cartPayload={payload} keys={globalAccess} />
+              </CartProvider>
+            }
+          />
         </Routes>
       </Router>
     </div>
