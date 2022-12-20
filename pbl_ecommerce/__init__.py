@@ -56,3 +56,6 @@ def get_default_pbl_404():
 @frappe.whitelist(allow_guest=True)
 def footer_info():
     return get_website_settings()
+@frappe.whitelist(allow_guest=True)
+def company_info():
+    return frappe.get_all("Company",fields=["*"], page_length=1,order_by='creation desc')

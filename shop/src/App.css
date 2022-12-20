@@ -86,8 +86,8 @@ p {
 }
 
 .altImageStyleLogin {
-   width: 50px;
-  height: 50px; 
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: lightgray;
   font-size: 24px;
@@ -115,6 +115,8 @@ p {
   position: fixed;
   top: 0;
   width: 100%;
+  z-index: 10;
+  background-color: rgb(238, 236, 236);
 }
 
 /* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
@@ -349,17 +351,16 @@ ul#footer-menu li {
   height: 50px;
 }
 .no-items {
- 
   /* background-color: red; */
   /* Center vertically and horizontally */
-  
+
   /* background-image: url("./pages/no-ecommerce-items.jpg"); */
   position: absolute;
   top: 50%;
   left: 30%;
   margin: -25px 0 0 -25px;
 }
-.no-img-bg{
+.no-img-bg {
   /* background-image: url("./pages/no-ecommerce-items.jpg"); */
   justify-content: center;
   height: 50px;
@@ -367,6 +368,12 @@ ul#footer-menu li {
   position: absolute;
 }
 
-.logoImg{
+.logoImg {
   content: url("./components/logo.png");
+}
+
+.hero{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

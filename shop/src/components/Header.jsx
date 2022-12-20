@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
+import { companyDetails } from "../assets/companyInfo";
 import { fetchOffers } from "../assets/offers";
 import CartContext from "../CartContext";
 
 import { getCookie } from "../cookie";
+import Cart from "../pages/Cart";
 
-import logoImg from "./logo.png"
-
+import logoImg from "./logo.png";
 
 const Header1 = () => {
   const { loading } = useContext(CartContext);
@@ -37,7 +38,8 @@ const Header1 = () => {
     return names
       .slice(0, 2)
       .map((i) => i.charAt(0))
-      .join("").toUpperCase();
+      .join("")
+      .toUpperCase();
   };
   const alertAnOffer = (offer) => {
     Swal.fire({
@@ -57,7 +59,6 @@ const Header1 = () => {
     });
   };
 
-  
   useEffect(() => {
     fetchOffers().then((r) => {
       setOffers((prevState) => r);
@@ -74,10 +75,14 @@ const Header1 = () => {
       <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
           <a href="#">
-            <img src="https://c8.alamy.com/comp/2J2TJ6C/circular-letter-b-abstract-lab-logo-can-be-used-for-business-science-health-medical-laboratory-logo-2J2TJ6C.jpg" alt="" className="logoImg"/>
+            <img
+              src="https://c8.alamy.com/comp/2J2TJ6C/circular-letter-b-abstract-lab-logo-can-be-used-for-business-science-health-medical-laboratory-logo-2J2TJ6C.jpg"
+              alt=""
+              className="LogoPlc"
+            />
           </a>
         </div>
-        supposda
+
         <div class="humberger__menu__cart">
           <ul>
             <li>
@@ -199,7 +204,6 @@ const Header1 = () => {
                     <a href="#">
                       <i class="fa fa-linkedin"></i>
                     </a>
-            
                   </div>
                   {/* <div class="header__top__right__language">
                       <img src="img/language.png" alt="" />
@@ -218,15 +222,16 @@ const Header1 = () => {
                     <div className="altImageStyleLogin">
                       {getInitials(getCookie("full_name") || "Guest User")}
                     </div>
-                    
+
                     {getCookie("full_name") === "Guest" ? (
                       <a href="/login">
                         <i class="fa fa-user"></i> Login
-                      </a>): (<a href="/?cmd=web_logout">
+                      </a>
+                    ) : (
+                      <a href="/?cmd=web_logout">
                         <i class="fa fa-arrow-left"></i> Logout
                       </a>
                     )}
-                    
                   </div>
                 </div>
               </div>
@@ -249,88 +254,165 @@ const Header1 = () => {
   );
 };
 
-const Header = () =>{
-  const {cartItems} = useContext(CartContext)
-
- 
-   return (
+const Header = () => {
+  const { cartItems } = useContext(CartContext);
+  const [showCart, setShowCart] = useState(false);
+  const launchCartModal = () => {
+    setShowCart((prevState) => !showCart);
+  };
+  const [companyInfo, setCompanyInfo] = useState(null);
+  useEffect(() => {
+    companyDetails().then((r) => {
+      setCompanyInfo((prevState) => r);
+    });
+  }, []);
+  return (
     <>
-       <header class="header" id="myHeader">
-        <div class="header__top">
-            <div class="container">
+      {/* {JSON.stringify(companyInfo)} */}
+      {showCart && <Cart setIsOpen={launchCartModal} />}
+      <header class="header" id="myHeader">
+        {companyInfo && (
+          <>
+            <div class="header__top">
+              <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="header__top__left">
-                            <ul>
-                                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                <li>Free Shipping for all Order of $99</li>
-                            </ul>
-                        </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="header__top__left">
+                      <ul>
+                        <li>
+                          <i class="fa fa-envelope"></i>{" "}
+                          {
+                            <a href={`mailto:${companyInfo.email || ""}`}>
+                              {companyInfo.email || ""}
+                            </a>
+                          }
+                        </li>
+                        <li></li>
+                      </ul>
                     </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="header__top__right">
-                            <div class="header__top__right__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
-                            </div>
-                            <div class="header__top__right__language">
-                                <img src="img/language.png" alt=""/>
-                                <div>English</div>
-                                <span class="arrow_carrot-down"></span>
-                                <ul>
-                                    <li><a href="#">Spanis</a></li>
-                                    <li><a href="#">English</a></li>
-                                </ul>
-                            </div>
-                            <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
-                            </div>
-                        </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="header__top__right">
+                      <div class="header__top__right__social">
+                        {/* <a href="#">
+                      <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#">
+                      <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#">
+                      <i class="fa fa-linkedin"></i>
+                    </a>
+                    <a href="#">
+                      <i class="fa fa-pinterest-p"></i>
+                    </a> */}
+                      </div>
+                      <div class="header__top__right__language">
+                        <img src="img/language.png" alt="" />
+                        <div>English</div>
+                        <span class="arrow_carrot-down"></span>
+                        <ul>
+                          {/* <li>
+                        <a href="#">Spanis</a>
+                      </li> */}
+                          <li>
+                            <a href="#">English</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="header__top__right__auth">
+                        <a
+                          href={
+                            getCookie("full_name") === "Guest"
+                              ? "/login"
+                              : "/?cmd=web_logout"
+                          }
+                        >
+                          <i class="fa fa-user"></i>
+                          {getCookie("full_name") === "Guest"
+                            ? "Login"
+                            : "Logout"}
+                        </a>
+                      </div>
                     </div>
+                  </div>
                 </div>
+              </div>
             </div>
-        </div>
-        <div class="container">
-            <div class="row">
+            <div class="container">
+              <div class="row">
                 <div class="col-lg-3">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""/></a>
-                    </div>
+                  <div class="header__logo">
+                    <a href="./landing">
+                      <img
+                        src={companyInfo.company_logo || logoImg}
+                        alt="Company Logo"
+                        style={{
+                          "object-fit": "contain",
+                          width: "auto",
+                          height: "70px",
+                          "object-fit": "contain",
+                        }}
+                      />
+                    </a>
+                  </div>
                 </div>
                 <div class="col-lg-6">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="active"><a href="./index.html">Home</a></li>
-                            {/* <!-- <li><a href="./shop-grid.html">Shop</a></li> --> */}
-                            <li><a href="#">Pages</a>
-                                <ul class="header__menu__dropdown">
-                                    {/* <!-- <li><a href="./shop-details.html">Shop Details</a></li> --> */}
-                                    {/* <!-- <li><a href="./shoping-cart.html">Shoping Cart</a></li> --> */}
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                   
-                                </ul>
-                            </li>
-                           
-                        </ul>
-                    </nav>
+                  <nav class="header__menu">
+                    <ul>
+                      <li>
+                        <a href="/landing">Company Website</a>
+                      </li>
+                      <li class="active">
+                        <a href="/quotations" target="_blank">
+                          Quote History
+                        </a>
+                      </li>
+                      <li>
+                        <a href="/contact" target="_blank">
+                          Contact Us
+                        </a>
+                      </li>
+                      {/* <li>
+                    <a href="#">Pages</a>
+                    <ul class="header__menu__dropdown">
+                     
+                      <li>
+                        <a href="./checkout.html">Check Out</a>
+                      </li>
+                    </ul>
+                  </li> */}
+                    </ul>
+                  </nav>
                 </div>
                 <div class="col-lg-3">
-                    <div class="header__cart">
-                        <ul>
-                            <li><a id="shopping-cart-btn"><i class="fa fa-shopping-bag"></i> <span>{cartItems.length || 0}</span></a></li>
-                        </ul>
-                    </div>
+                  <div class="header__cart">
+                    <ul>
+                      <li>
+                        <a
+                          id="shopping-cart-btn"
+                          href="#"
+                          onClick={() => {
+                            setShowCart((prevstate) => !showCart);
+                          }}
+                        >
+                          <i class="fa fa-shopping-bag"></i>{" "}
+                          <span>{cartItems.length || 0}</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-            </div>
-            <div class="humberger__open">
+              </div>
+              <div class="humberger__open">
                 <i class="fa fa-bars"></i>
+              </div>
             </div>
-        </div>
-    </header>
+          </>
+        )}
+      </header>
     </>
-   )
-}
+  );
+};
 
 export default Header;

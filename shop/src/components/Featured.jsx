@@ -17,8 +17,7 @@ import { fetchOffers } from "../assets/offers";
 
 const Featured = ({ itemsPayload }) => {
   //console.log("New World order ||");
-  const { cartItems,keys } = useContext(CartContext);
-
+  const { cartItems, keys } = useContext(CartContext);
 
   //console.log(JSON.stringify(itemsPayload));
 
@@ -128,7 +127,7 @@ const Featured = ({ itemsPayload }) => {
     );
     return filtered.length || 0;
   };
-  
+
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
@@ -136,7 +135,7 @@ const Featured = ({ itemsPayload }) => {
   const performOffersSearch = (itemGroups) => {
     let field_filters = { item_group: ["IN", itemGroups] };
 
-    fetchShopItemsWithFilter({ field_filters },keys).then((r) => {
+    fetchShopItemsWithFilter({ field_filters }, keys).then((r) => {
       // setPageData((prevState)=>{...pageData,...r.product_results})
     });
   };
@@ -144,7 +143,7 @@ const Featured = ({ itemsPayload }) => {
     <>
       {showCart && <Cart setIsOpen={launchCartModal} />}
 
-{/* {JSON.stringify(keys)} */}
+      {/* {JSON.stringify(keys)} */}
       {/* {searchTxt} */}
       {/* {pageData.length < 1 && <p style={{"color":"red"}}>Searching..</p>
       // <Search searchTxt updatePayload={handleUpdatePageData} />
@@ -152,8 +151,8 @@ const Featured = ({ itemsPayload }) => {
       //   <div class="loader"></div>
       // </div>
       } */}
-      
-      <nav
+
+      {/* <nav
         class="navbar sticky-top navbar-light"
         style={{ "background-color": "#f8f8f8" }}
       >
@@ -227,9 +226,14 @@ const Featured = ({ itemsPayload }) => {
             {`  ${cartItems.length} In Cart`}
           </span>
         </div>
-      </nav>
+      </nav> */}
 
-      <hr />
+      <HeroWithSearch
+        searchTxt={searchTxt}
+        handleSearchTxtUpdate={setSearchtxt}
+        handleSearch={filterSearch}
+      />
+      {/* <hr /> */}
       {/* <div class="cart-float">
         <h4 onClick={() => launchCartModal()}>
           <BsCart4 style={{ color: "green", "font-size": "48px" }} />
@@ -335,7 +339,7 @@ const Featured = ({ itemsPayload }) => {
                       )}
 
                       {/* {JSON.stringify(pageData)} */}
-                      <HeroSection />
+                      {searchTxt.length < 2 && <HeroSection />}
                       <br />
 
                       <div
@@ -368,12 +372,10 @@ const Featured = ({ itemsPayload }) => {
   );
 };
 
-
-
 const HeroSection = () => {
   const [offers, setOffers] = useState(null);
 
-  const {keys} = useContext(CartContext)
+  const { keys } = useContext(CartContext);
 
   const randomThree = (array) => {
     let n = 3;
@@ -476,6 +478,62 @@ const HeroSection = () => {
         </div>
       </div>
     </>
+  );
+};
+
+const HeroWithSearch = ({ searchTxt, handleSearchTxtUpdate, handleSearch }) => {
+  const { cartItems } = useContext(CartContext);
+  const [showCart, setShowCart] = useState(false);
+  const newSearch = () => {};
+  const launchCartModal = () => {
+    // setShowCart(prevState=>!showCart);
+    setShowCart((prevState) => !showCart);
+  };
+  return (
+    <section class="hero">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-9">
+            <div class="hero__search">
+              <div class="hero__search__form">
+                <form action="#">
+                  <input
+                    type="text"
+                    placeholder="What do yo u need?"
+                    onChange={(e) => {
+                      console.log("Typing");
+                      handleSearch(e.target.value);
+                      handleSearchTxtUpdate((prevState) => e.target.value);
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    class="site-btn"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleSearch(searchTxt);
+                    }}
+                  >
+                    SEARCH
+                  </button>
+                </form>
+              </div>
+              <div class="hero__search__phone">
+                <div class="hero__search__phone__icon">
+                  <i class="fa fa-phone"></i>
+                </div>
+                <div class="hero__search__phone__text">
+                  <h5>+65 11.188.888</h5>
+                  <span>support 24/7 time</span>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 export default Featured;
