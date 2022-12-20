@@ -533,7 +533,7 @@ const HeroWithSearch = ({ searchTxt, handleSearchTxtUpdate, handleSearch }) => {
 
                 <div class="hero__search__phone__text">
 
-                  {companyInfo && <h5>{companyInfo.phone_no}</h5>}
+                  {companyInfo && <h5>{companyInfo.phone_no || "00 00-000"}</h5>}
                   <span>support 24/7 time</span>
                   
                 </div>
