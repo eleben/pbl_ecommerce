@@ -59,3 +59,7 @@ def footer_info():
 @frappe.whitelist(allow_guest=True)
 def company_info():
     return frappe.get_all("Company",fields=["*"], page_length=1,order_by='creation desc')
+@frappe.whitelist()
+def quote_history(user):
+    return frappe.get_all("Quotation", filters=dict(owner=user),fields=["*"])
+    

@@ -377,3 +377,6 @@ ul#footer-menu li {
   margin-left: auto;
   margin-right: auto;
 }
+.humberger__menu__wrapper,.humberger__menu__overlay{
+  z-index: 3900000;
+}

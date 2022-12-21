@@ -1,262 +1,25 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 import { companyDetails } from "../assets/companyInfo";
-import { fetchOffers } from "../assets/offers";
-import CartContext from "../CartContext";
+import Table from "react-bootstrap/Table";
 
+import CartContext from "../CartContext";
+import Modal from "react-bootstrap/Modal";
 import { getCookie } from "../cookie";
 import Cart from "../pages/Cart";
 
 import logoImg from "./logo.png";
-
-const Header1 = () => {
-  const { loading } = useContext(CartContext);
-
-  const [offers, setOffers] = useState(null);
-
-  const randomThree = (array) => {
-    let n = 3;
-
-    let shuffled = array.sort(function () {
-      return 0.5 - Math.random();
-    });
-
-    let selected = shuffled.slice(0, n);
-
-    return selected;
-  };
-  const getInitials = (name) => {
-    if (name === undefined || name === null || name === "") {
-      name = "Guest User";
-    }
-
-    let names = name.split(" ");
-
-    if (names.length === 1) {
-      return names[0].slice(0, 2).toUpperCase();
-    }
-    return names
-      .slice(0, 2)
-      .map((i) => i.charAt(0))
-      .join("")
-      .toUpperCase();
-  };
-  const alertAnOffer = (offer) => {
-    Swal.fire({
-      title: `<strong>
-           <u>${offer.name}</u>
-        </strong>`,
-
-      html: `
-          <h4>${offer.offer_detail}</h4>
-          <em>Expires on ${offer.offer_expiry}</em>
-        `,
-      showCloseButton: true,
-      showCancelButton: false,
-      focusConfirm: false,
-      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',
-      confirmButtonAriaLabel: "Noted, great!",
-    });
-  };
-
-  useEffect(() => {
-    fetchOffers().then((r) => {
-      setOffers((prevState) => r);
-    });
-  }, []);
-
-  return (
-    <>
-      {/* <div id="preloder">
-        <div class="loader"></div>
-      </div> */}
-
-      <div class="humberger__menu__overlay"></div>
-      <div class="humberger__menu__wrapper">
-        <div class="humberger__menu__logo">
-          <a href="#">
-            <img
-              src="https://c8.alamy.com/comp/2J2TJ6C/circular-letter-b-abstract-lab-logo-can-be-used-for-business-science-health-medical-laboratory-logo-2J2TJ6C.jpg"
-              alt=""
-              className="LogoPlc"
-            />
-          </a>
-        </div>
-
-        <div class="humberger__menu__cart">
-          <ul>
-            <li>
-              <a href="#">
-                <i class="fa fa-heart"></i> <span>1</span>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="fa fa-shopping-bag"></i> <span>3</span>
-              </a>
-            </li>
-          </ul>
-          <div class="header__cart__price">
-            item: <span>$150.00</span>
-          </div>
-        </div>
-        <div class="humberger__menu__widget">
-          {/* <div class="header__top__right__language">
-            <img src="img/language.png" alt="" />
-            <div>English</div>
-            <span class="arrow_carrot-down"></span>
-            <ul>
-              <li>
-                <a href="#">Spanis</a>
-              </li>
-              <li>
-                <a href="#">English</a>
-              </li>
-            </ul>
-          </div> */}
-          <div class="header__top__right__auth">
-            <a href="#">
-              <i class="fa fa-user"></i> Login
-            </a>
-          </div>
-        </div>
-        <nav class="humberger__menu__nav mobile-menu">
-          <ul>
-            <li class="active">
-              <a href="./index.html">Home</a>
-            </li>
-            <li>
-              <a href="./shop-grid.html">Shop</a>
-            </li>
-            <li>
-              <a href="#">Pages</a>
-              <ul class="header__menu__dropdown">
-                <li>
-                  <a href="./shop-details.html">Shop Details</a>
-                </li>
-                <li>
-                  <a href="./shoping-cart.html">Shoping Cart</a>
-                </li>
-                <li>
-                  <a href="./checkout.html">Check Out</a>
-                </li>
-                <li>
-                  <a href="./blog-details.html">Blog Details</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="./blog.html">Blog</a>
-            </li>
-            <li>
-              <a href="./contact.html">Contact</a>
-            </li>
-          </ul>
-        </nav>
-        <div id="mobile-menu-wrap"></div>
-        <div class="header__top__right__social">
-          <a href="#">
-            <i class="fa fa-facebook"></i>
-          </a>
-          <a href="#">
-            <i class="fa fa-twitter"></i>
-          </a>
-          <a href="#">
-            <i class="fa fa-linkedin"></i>
-          </a>
-          {/* <a href="#">
-            <i class="fa fa-pinterest-p"></i>
-          </a> */}
-        </div>
-        <div class="humberger__menu__contact">
-          <ul>
-            <li>
-              <i class="fa fa-envelope"></i> info@premier-biolife.com
-            </li>
-            {/* <li>Free Shipping for all Order of $99</li> */}
-          </ul>
-        </div>
-      </div>
-
-      <header class="header">
-        <div class="header__top">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="header__top__left">
-                  <ul>
-                    <li>
-                      <i class="fa fa-envelope"></i> info@premier-biolife.com
-                    </li>
-                    {/* <li>Free Shipping for all Order of $99</li> */}
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="header__top__right">
-                  <div class="header__top__right__social">
-                    <a href="#">
-                      <i class="fa fa-facebook"></i>
-                    </a>
-                    <a href="#">
-                      <i class="fa fa-twitter"></i>
-                    </a>
-                    <a href="#">
-                      <i class="fa fa-linkedin"></i>
-                    </a>
-                  </div>
-                  {/* <div class="header__top__right__language">
-                      <img src="img/language.png" alt="" />
-                      <div>English</div>
-                      <span class="arrow_carrot-down"></span>
-                      <ul>
-                        <li>
-                          <a href="#">Spanis</a>
-                        </li>
-                        <li>
-                          <a href="#">English</a>
-                        </li>
-                      </ul>
-                    </div> */}
-                  <div class="header__top__right__auth">
-                    <div className="altImageStyleLogin">
-                      {getInitials(getCookie("full_name") || "Guest User")}
-                    </div>
-
-                    {getCookie("full_name") === "Guest" ? (
-                      <a href="/login">
-                        <i class="fa fa-user"></i> Login
-                      </a>
-                    ) : (
-                      <a href="/?cmd=web_logout">
-                        <i class="fa fa-arrow-left"></i> Logout
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              {/* <ImageCarousel listing={offers} style={{width:"100%"}}/> */}
-              {/* <OffersCarousel  /> */}
-            </div>
-          </div>
-          <div class="humberger__open">
-            <i class="fa fa-bars"></i>
-          </div>
-        </div>
-      </header>
-    </>
-  );
-};
+import { fetchQuoteHistory } from "../assets/quoteHistory";
+import { GrDocumentPdf } from "react-icons/gr";
 
 const Header = () => {
   const { cartItems } = useContext(CartContext);
   const [showCart, setShowCart] = useState(false);
+  const [showHist, setShowHist] = useState(false);
+  const openHistoryDialog = () => {
+    setShowHist((prevState) => !showHist);
+  };
   const launchCartModal = () => {
     setShowCart((prevState) => !showCart);
   };
@@ -270,9 +33,123 @@ const Header = () => {
     <>
       {/* {JSON.stringify(companyInfo)} */}
       {showCart && <Cart setIsOpen={launchCartModal} />}
+      {showHist && (
+        <QuoteHistory
+          handleOpenHistory={openHistoryDialog}
+          user={getCookie("user_id")}
+        />
+      )}
       <header class="header" id="myHeader">
         {companyInfo && (
           <>
+            {/* <!-- Humberger Begin --> */}
+            <div class="humberger__menu__overlay"></div>
+            <div class="humberger__menu__wrapper">
+              <div class="humberger__menu__logo">
+                <a href="/landing">
+                  <img
+                    src={companyInfo.company_logo || logoImg}
+                    alt="Company Logo"
+                    style={{
+                      "object-fit": "contain",
+                      width: "auto",
+                      height: "70px",
+                    }}
+                  />
+                </a>
+              </div>
+              <div class="humberger__menu__cart">
+                <ul>
+                  <li>
+                    <a
+                      id="shopping-cart-btn"
+                      href="#"
+                      onClick={() => {
+                        setShowCart((prevstate) => !showCart);
+                      }}
+                    >
+                      <i class="fa fa-shopping-bag"></i>{" "}
+                      <span>{cartItems.length || 0}</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="humberger__menu__widget">
+                <div class="header__top__right__language">
+                  <img src="img/language.png" alt="" />
+                  <div>English</div>
+                  <span class="arrow_carrot-down"></span>
+                  <ul>
+                    <li>
+                      <a href="#">English</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="header__top__right__auth">
+                  <a
+                    href={
+                      getCookie("full_name") === "Guest"
+                        ? "/login"
+                        : "/?cmd=web_logout"
+                    }
+                  >
+                    <i class="fa fa-user"></i>
+                    {getCookie("full_name") === "Guest" ? "Login" : "Logout"}
+                  </a>
+                </div>
+              </div>
+              <nav class="humberger__menu__nav mobile-menu">
+                <ul>
+                  <li>
+                    <a href="/landing">Company Website</a>
+                  </li>
+                  <li class="active">
+                    <a
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        if (
+                          getCookie("full_name").includes([
+                            "Administrator",
+                            "Guest",
+                          ])
+                        ) {
+                          Swal.fire({
+                            icon: "error",
+                            title: "Unauthorized !",
+                            text: "Oops, you forgot to login or you're logged in as Administrator. So you can't access quotations",
+                            footer: '<a href="/login">Take me to Login</a>',
+                          });
+                          return;
+                        }
+                        openHistoryDialog();
+                      }}
+                    >
+                      Quote History
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/contact" target="_blank">
+                      Contact Us
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <div id="mobile-menu-wrap"></div>
+              <div class="header__top__right__social"></div>
+              <div class="humberger__menu__contact">
+                <ul>
+                  <li>
+                    <i class="fa fa-envelope"></i>{" "}
+                    {
+                      <a href={`mailto:${companyInfo.email || ""}`}>
+                        {companyInfo.email || ""}
+                      </a>
+                    }
+                  </li>
+                </ul>
+              </div>
+            </div>
+            {/* Humberger End */}
             <div class="header__top">
               <div class="container">
                 <div class="row">
@@ -287,7 +164,6 @@ const Header = () => {
                             </a>
                           }
                         </li>
-                        <li></li>
                       </ul>
                     </div>
                   </div>
@@ -351,7 +227,6 @@ const Header = () => {
                           "object-fit": "contain",
                           width: "auto",
                           height: "70px",
-                          "object-fit": "contain",
                         }}
                       />
                     </a>
@@ -364,7 +239,26 @@ const Header = () => {
                         <a href="/landing">Company Website</a>
                       </li>
                       <li class="active">
-                        <a href="/quotations" target="_blank">
+                        <a
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            if (
+                              getCookie("full_name").includes([
+                                "Administrator",
+                                "Guest",
+                              ])
+                            ) {
+                              Swal.fire({
+                                icon: "error",
+                                title: "Unauthorized !",
+                                text: "Oops, you forgot to login or you're logged in as Administrator. So you can't access quotations",
+                                footer: '<a href="/login">Take me to Login</a>',
+                              });
+                              return;
+                            }
+                            openHistoryDialog();
+                          }}
+                        >
                           Quote History
                         </a>
                       </li>
@@ -373,15 +267,6 @@ const Header = () => {
                           Contact Us
                         </a>
                       </li>
-                      {/* <li>
-                    <a href="#">Pages</a>
-                    <ul class="header__menu__dropdown">
-                     
-                      <li>
-                        <a href="./checkout.html">Check Out</a>
-                      </li>
-                    </ul>
-                  </li> */}
                     </ul>
                   </nav>
                 </div>
@@ -414,5 +299,128 @@ const Header = () => {
     </>
   );
 };
+const QuoteHistory = ({ handleOpenHistory, user }) => {
+  const [lgShow, setLgShow] = useState(true);
 
+  const [quoteHistory, setQuoteHistory] = useState(null);
+
+  const { keys } = useContext(CartContext);
+
+  useEffect(() => {
+    fetchQuoteHistory(user, keys).then((r) => {
+      setQuoteHistory((prevState) => r);
+    });
+  }, []);
+  return (
+    <>
+      <Modal
+        size="lg"
+        show={lgShow}
+        fullscreen={true}
+        onHide={() => {
+          setLgShow((lgShow) => !lgShow);
+          handleOpenHistory(lgShow);
+        }}
+        aria-labelledby="example-modal-sizes-title-lg"
+        // style={{ "z-index": "3" }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-lg">
+            Hi, {decodeURI(getCookie("full_name"))}, below is your quote history
+            :
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <small
+            style={{ color: "green", cursor: "pointer" }}
+            onClick={() => {
+              setLgShow((lgShow) => !lgShow);
+              handleOpenHistory(lgShow);
+            }}
+          >
+            <HiOutlineArrowLeft /> Back to shopping
+          </small>
+
+          {quoteHistory === null ? (
+            <em>Loading...</em>
+          ) : (
+            <FullQuoteHistory history={quoteHistory} />
+          )}
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+};
+
+const FullQuoteHistory = ({ history }) => {
+  const numberWithCommas = (x) => {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  const humanReadableDate = (datestr) => {
+    let dateString = datestr.split(" ")[0];
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return `${new Date(dateString).toLocaleDateString(undefined, options)} ${datestr.split(" ")[1]}`;
+  };
+  return (
+    <>
+      {history.length < 1 ? (
+        <em>No results found</em>
+      ) : (
+        <>
+          <Table striped bordered hover responsive>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date Requested</th>
+                <th colSpan={2}>Quote ID</th>
+                <th colSpan={2}>Company</th>
+                <th>Grand Total</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <>
+                {history.map((quotation, index) => (
+                  <tr id={index}>
+                    <td>{index + 1}</td>
+                    <td>{humanReadableDate(quotation.creation)}</td>
+                    <td colSpan={2}>{quotation.name}</td>
+                    <td colSpan={2}>
+                      <b>{quotation.party_name}</b>
+                    </td>
+                    <td>
+                      {quotation.docstatus == "1" ? (
+                        <>{numberWithCommas(quotation.grand_total)}</>
+                      ) : (
+                        <em>Pending</em>
+                      )}
+                    </td>
+                    <td>
+                      {quotation.docstatus == "1" ? (
+                        <a
+                          href={`/printview?doctype=Quotation&name=${quotation.name}`}
+                          target="_blank"
+                        >
+                          <GrDocumentPdf
+                            style={{
+                              "font-size": "14px",
+                              color: "green",
+                              cursor: "pointer",
+                            }}
+                          />
+                        </a>
+                      ) : (
+                        <em style={{ color: "red" }}>N/a</em>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </>
+            </tbody>
+          </Table>
+        </>
+      )}
+    </>
+  );
+};
 export default Header;

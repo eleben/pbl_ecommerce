@@ -10,9 +10,19 @@
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/assets/pbl_ecommerce/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/assets/pbl_ecommerce/css/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/assets/pbl_ecommerce/css/nice-select.css" type="text/css">
+  <link rel="stylesheet" href="/assets/pbl_ecommerce/css/jquery-ui.min.css" type="text/css">
+  <link rel="stylesheet" href="/assets/pbl_ecommerce/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/assets/pbl_ecommerce/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/assets/pbl_ecommerce/css/style.css" type="text/css">
+
   <title>Premier Bio Life</title>
-  <script type="module" crossorigin src="/assets/pbl_ecommerce/shop/assets/index.c6cf6054.js"></script>
-  <link rel="stylesheet" href="/assets/pbl_ecommerce/shop/assets/index.f52f1dc3.css">
+  <script type="module" crossorigin src="/assets/pbl_ecommerce/shop/assets/index.2946d850.js"></script>
+  <link rel="stylesheet" href="/assets/pbl_ecommerce/shop/assets/index.959b2388.css">
 </head>
 
 <body>
@@ -31,6 +41,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
+
+
   <script src="https://cdn.jsdelivr.net/npm/react-bootstrap@next/dist/react-bootstrap.min.js" crossorigin></script>
 
 
@@ -42,6 +54,8 @@
     crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+
 
   <script>
     $(document).ready(function () {
@@ -79,6 +93,31 @@
 
   </script>
   <script>var Alert = ReactBootstrap.Alert;</script>
+
+  <script src="/assets/pbl_ecommerce/js/jquery.nice-select.min.js"></script>
+  <script src="/assets/pbl_ecommerce/js/jquery-ui.min.js"></script>
+  <script src="/assets/pbl_ecommerce/js/jquery.slicknav.js"></script>
+  <script src="/assets/pbl_ecommerce/js/mixitup.min.js"></script>
+
+  <script src="/assets/pbl_ecommerce/js/owl.carousel.min.js"></script>
+  <script src="/assets/pbl_ecommerce/js/main.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $(".humberger__open").on('click', function () {
+        alert("I am the small menu thingy that is supposed to open")
+        $(".humberger__menu__wrapper").addClass("show__humberger__menu__wrapper");
+        $(".humberger__menu__overlay").addClass("active");
+        $("body").addClass("over_hid");
+      });
+
+      $(".humberger__menu__overlay").on('click', function () {
+        $(".humberger__menu__wrapper").removeClass("show__humberger__menu__wrapper");
+        $(".humberger__menu__overlay").removeClass("active");
+        $("body").removeClass("over_hid");
+      });
+    })
+  </script>
 
 </body>
 

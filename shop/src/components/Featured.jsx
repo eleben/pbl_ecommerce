@@ -292,7 +292,7 @@ const Featured = ({ itemsPayload }) => {
                 <div className="row">
                   <section
                     class="featured spad content"
-                    style={{ padding: "16px" }}
+                    style={{ padding: "12px" }}
                   >
                     <div class="container">
                       <div>
@@ -340,7 +340,7 @@ const Featured = ({ itemsPayload }) => {
                       )}
 
                       {/* {JSON.stringify(pageData)} */}
-                      {searchTxt.length < 2 && <HeroSection />}
+                      {/* {searchTxt.length < 2 && <HeroSection />} */}
                       <br />
 
                       <div
@@ -540,6 +540,7 @@ const HeroWithSearch = ({ searchTxt, handleSearchTxtUpdate, handleSearch }) => {
               </div>
             </div>
           </div>
+          {searchTxt.length < 2 && <HeroSection />}
         </div>
       </div>
     </section>
