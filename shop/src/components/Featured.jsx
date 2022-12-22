@@ -10,6 +10,7 @@ import { MdLocalOffer } from "react-icons/md";
 // import {call} from 'frappe-react-sdk';
 import { fetchShopItemsWithFilter } from "../assets/shopItemsFilter";
 import Swal from "sweetalert2";
+import parse from "html-react-parser";
 
 import Form from "react-bootstrap/Form";
 import Badge from "react-bootstrap/Badge";
@@ -376,7 +377,7 @@ const Featured = ({ itemsPayload }) => {
 const HeroSection = () => {
   const [offers, setOffers] = useState(null);
 
-  const { keys } = useContext(CartContext);
+  const { keys, companyData } = useContext(CartContext);
 
   const randomThree = (array) => {
     let n = 3;
@@ -416,7 +417,7 @@ const HeroSection = () => {
       {/* "/assets/pbl_ecommerce/banner.jpg" */}
       {/* https://codepen.io/Washable/pen/Oxqjbq */}
 
-      <div class="hero__item set-bg main-hero">
+      <div class="hero__item set-bg main-hero" style={{ "background-image": `url(${companyData.hero_image})`}}>
         <div
           id="carouselExampleControls"
           class="carousel slide"
@@ -426,7 +427,8 @@ const HeroSection = () => {
           <div class="carousel-inner">
             <div class="carousel-item active">
               <div class="hero__text">
-                <span>Quality Equipment</span>
+                {parse(companyData.hero_text || "<p>-</p>")}
+                {/* <span>Quality Equipment</span>
                 <h2>
                   At amazing <br />
                   Prices
@@ -434,7 +436,7 @@ const HeroSection = () => {
                 <p>Free Pickup, Warranty and Delivery available</p>
                 <a href="#item-listing" id="nav-scr" class="primary-btn">
                   SHOP NOW
-                </a>
+                </a> */}
               </div>
             </div>
 
@@ -532,10 +534,10 @@ const HeroWithSearch = ({ searchTxt, handleSearchTxtUpdate, handleSearch }) => {
                 </div>
 
                 <div class="hero__search__phone__text">
-
-                  {companyInfo && <h5>{companyInfo.phone_no || "00 00-000"}</h5>}
+                  {companyInfo && (
+                    <h5>{companyInfo.phone_no || "00 00-000"}</h5>
+                  )}
                   <span>support 24/7 time</span>
-                  
                 </div>
               </div>
             </div>

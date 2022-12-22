@@ -84,6 +84,7 @@ const Cart = ({setIsOpen}) => {
         fullscreen={true}
         onHide={() => {
           setLgShow((lgShow) => !lgShow);
+          setIsOpen(prevState=>false);
         }}
         aria-labelledby="example-modal-sizes-title-lg"
         // style={{"z-index": "3"}}

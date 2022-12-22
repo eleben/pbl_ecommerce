@@ -7,8 +7,8 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cartItems, setItems] = useState([]);
   const [keys, setKeys] = useState({});
-
-  // useEffect(() => {
+  const[companyData, setCompanyData] = useState(null)
+  // useEffect(() => {null
   //   setItems((prevState) => getCookie("cart_items") || []);
   // }, []);
   const removeFromCart = (item_code) => {
@@ -17,6 +17,9 @@ export function CartProvider({ children }) {
     );
   };
 
+  const setCompanyDataGlobally=(cData)=>{
+    setCompanyData(prevState=>cData)
+  }
   const addToCart = (addedItem) => {
     let loggedInuser = getCookie("user_id");
     if (
@@ -62,11 +65,14 @@ export function CartProvider({ children }) {
       value={{
         cartItems,
         keys,
+        companyData,
         addToCart,
         removeFromCart,
         addToCartWithQty,
         emptyCart,
         setKeysGlobally,
+        setCompanyDataGlobally
+       
       }}
     >
       {children}

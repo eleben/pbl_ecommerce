@@ -340,7 +340,7 @@ const QuoteHistory = ({ handleOpenHistory, user }) => {
           >
             <HiOutlineArrowLeft /> Back to shopping
           </small>
-
+          <br />
           {quoteHistory === null ? (
             <em>Loading...</em>
           ) : (
@@ -359,7 +359,9 @@ const FullQuoteHistory = ({ history }) => {
   const humanReadableDate = (datestr) => {
     let dateString = datestr.split(" ")[0];
     const options = { year: "numeric", month: "short", day: "numeric" };
-    return `${new Date(dateString).toLocaleDateString(undefined, options)} ${datestr.split(" ")[1]}`;
+    return `${new Date(dateString).toLocaleDateString(undefined, options)} ${
+      datestr.split(" ")[1]
+    }`;
   };
   return (
     <>
@@ -381,7 +383,7 @@ const FullQuoteHistory = ({ history }) => {
             <tbody>
               <>
                 {history.map((quotation, index) => (
-                  <tr id={index}>
+                  <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{humanReadableDate(quotation.creation)}</td>
                     <td colSpan={2}>{quotation.name}</td>

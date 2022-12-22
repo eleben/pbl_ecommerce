@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { authDetails } from "../assets/auth";
+import { companyDetails } from "../assets/companyInfo";
 import { fetchShopItems } from "../assets/shopItems";
 import CartContext from "../CartContext";
 
@@ -42,7 +43,10 @@ const Landing = ({ keys }) => {
 const DefaultTwenty = ({ ga }) => {
   const [cartPayload, setCartPayload] = useState(null);
 
-  const { setKeysGlobally } = useContext(CartContext);
+  const { companyData, setKeysGlobally, setCompanyDataGlobally } =
+    useContext(CartContext);
+
+  // const {setCompanyDataGlobally}
 
   useEffect(() => {
     setKeysGlobally(ga);
@@ -53,6 +57,9 @@ const DefaultTwenty = ({ ga }) => {
     fetchShopItems(ga).then((r) => {
       setCartPayload((prevState) => r);
     });
+    companyDetails().then((r) => {
+      setCompanyDataGlobally(r);
+    });
   };
   useEffect(() => {
     loadContextItems();
@@ -60,8 +67,10 @@ const DefaultTwenty = ({ ga }) => {
 
   return (
     <>
-      {!cartPayload || cartPayload === undefined || cartPayload === null ? (
-        <DefaultNoItems />
+      {!cartPayload || cartPayload === undefined || cartPayload === null  || !companyData ? (
+        <div id="preloder">
+          <div class="loader"></div>
+        </div>
       ) : (
         <Featured itemsPayload={cartPayload} />
       )}
