@@ -24,6 +24,26 @@ const Header = () => {
     setShowCart((prevState) => !showCart);
   };
   const [companyInfo, setCompanyInfo] = useState(null);
+  const handleSidePanel = () => {
+    let menu_wrapper = document.getElementById("menu_wrapper");
+    let menu_overlay = document.getElementById("menu_overlay");
+
+    menu_wrapper.classList.add("show__humberger__menu__wrapper");
+    menu_overlay.classList.add("active");
+    document.body.classList.add("over_hid");
+   
+    // $(".humberger__menu__wrapper").addClass("show__humberger__menu__wrapper");
+    // $(".humberger__menu__overlay").addClass("active");
+    // $("body").addClass("over_hid");
+  };
+  const handleSidePanelClose = () => {
+    let menu_wrapper = document.getElementById("menu_wrapper");
+    let menu_overlay = document.getElementById("menu_overlay");
+
+    menu_wrapper.classList.remove("show__humberger__menu__wrapper");
+    menu_overlay.classList.remove("active");
+    document.body.classList.remove("over_hid");
+  };
   useEffect(() => {
     companyDetails().then((r) => {
       setCompanyInfo((prevState) => r);
@@ -43,8 +63,14 @@ const Header = () => {
         {companyInfo && (
           <>
             {/* <!-- Humberger Begin --> */}
-            <div class="humberger__menu__overlay"></div>
-            <div class="humberger__menu__wrapper">
+            <div
+              class="humberger__menu__overlay"
+              id="menu_overlay"
+              onClick={() => {
+                handleSidePanelClose();
+              }}
+            ></div>
+            <div class="humberger__menu__wrapper" id="menu_wrapper">
               <div class="humberger__menu__logo">
                 <a href="/landing">
                   <img
@@ -98,9 +124,11 @@ const Header = () => {
                   </a>
                 </div>
               </div>
-              <nav class="humberger__menu__nav mobile-menu">
+              {/* <p>Something to consider</p> */}
+              <div id="mobile-menu-wrap">
+              <nav class="humberger__menu__nav mobile-menu" id="mobile-menu">
                 <ul>
-                  <li>
+                  <li class="active">
                     <a href="/landing">Company Website</a>
                   </li>
                   <li class="active">
@@ -134,7 +162,8 @@ const Header = () => {
                   </li>
                 </ul>
               </nav>
-              <div id="mobile-menu-wrap"></div>
+              
+              </div>
               <div class="header__top__right__social"></div>
               <div class="humberger__menu__contact">
                 <ul>
@@ -289,7 +318,7 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-              <div class="humberger__open">
+              <div class="humberger__open" onClick={() => handleSidePanel()}>
                 <i class="fa fa-bars"></i>
               </div>
             </div>
