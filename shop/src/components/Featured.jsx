@@ -229,11 +229,62 @@ const Featured = ({ itemsPayload }) => {
           </span>
         </div>
       </nav> */}
+      <div className="container navcontainer">
+        <div className="row">
+          <div class="dropdown navbar-filter">
+            <button
+              class="btn btn-success dropdown-toggle "
+              style ={{backgroundColor:"#00ae4d"}}
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Filter by Category
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <ul class="list-group" style={{ "list-style-type": "none" }}>
+                <li
+                  class="dropdown-item list-group-item"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    // setGroupFilter((groupFilter) => "All");
+                    // filterByCategory("All");
+                    handleGroupFilterSelect("All",true)
+                  }}
+                >
+                  All Items
+                </li>
 
+                {uniqueItemGroups.map((itemGroup, key) => {
+                  return (
+                    <li key={key}>
+                      <small
+                        style={{ cursor: "pointer" }}
+                        class="dropdown-item list-group-item"
+                        onClick={() => {
+                          // setGroupFilter((groupFilter) => itemGroup);
+                          // filterByCategory(itemGroup);
+                          handleGroupFilterSelect(itemGroup,true)
+                        }}
+                      >
+                        {itemGroup} {` (${itemCountPerGroup(itemGroup)})`}
+                      </small>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
       <HeroWithSearch
         searchTxt={searchTxt}
         handleSearchTxtUpdate={setSearchtxt}
         handleSearch={filterSearch}
+        handleGroupFilter={handleGroupFilterSelect}
+        igs={uniqueItemGroups}
       />
       {/* <hr /> */}
       {/* <div class="cart-float">
@@ -417,7 +468,10 @@ const HeroSection = () => {
       {/* "/assets/pbl_ecommerce/banner.jpg" */}
       {/* https://codepen.io/Washable/pen/Oxqjbq */}
 
-      <div class="hero__item set-bg main-hero" style={{ "background-image": `url(${companyData.hero_image})`}}>
+      <div
+        class="hero__item set-bg main-hero"
+        style={{ "background-image": `url(${companyData.hero_image})` }}
+      >
         <div
           id="carouselExampleControls"
           class="carousel slide"
@@ -484,7 +538,13 @@ const HeroSection = () => {
   );
 };
 
-const HeroWithSearch = ({ searchTxt, handleSearchTxtUpdate, handleSearch }) => {
+const HeroWithSearch = ({
+  searchTxt,
+  handleSearchTxtUpdate,
+  handleSearch,
+  handleGroupFilter,
+  igs,
+}) => {
   const { cartItems } = useContext(CartContext);
   const [showCart, setShowCart] = useState(false);
   const newSearch = () => {};
@@ -493,6 +553,9 @@ const HeroWithSearch = ({ searchTxt, handleSearchTxtUpdate, handleSearch }) => {
     setShowCart((prevState) => !showCart);
   };
   const [companyInfo, setCompanyInfo] = useState(null);
+  const showDropDown = () => {
+    document.getElementById("myDropdown").classList.toggle("show");
+  };
   useEffect(() => {
     companyDetails().then((r) => {
       setCompanyInfo((prevState) => r);
@@ -502,7 +565,36 @@ const HeroWithSearch = ({ searchTxt, handleSearchTxtUpdate, handleSearch }) => {
     <section class="hero">
       <div class="container">
         <div class="row">
-          <div class="col-lg-3"></div>
+          <div class="col-lg-3">
+            {/* <div class="dropdown">
+              <button onClick={() => showDropDown()} class="dropbtn">
+                <i class="fa fa-bars"></i> All Item Groups
+              </button>
+              <div id="myDropdown" class="dropdown-content">
+                <ul>
+                  {igs.filter((ig, index) => (
+                    <>
+                      <li
+                        style={{
+                          margin: "2px",
+                          "font-weight": "bold",
+                          color: "blue",
+                        }}
+                        key={index}
+                        onClick={() => {
+                          alert("Clicked" + ig);
+                          handleGroupFilter(ig, true);
+                        }}
+                      >
+                        {ig}
+                      </li>{" "}
+                      <hr />{" "}
+                    </>
+                  ))}
+                </ul>
+              </div>
+            </div> */}
+          </div>
           <div class="col-lg-9">
             <div class="hero__search">
               <div class="hero__search__form">

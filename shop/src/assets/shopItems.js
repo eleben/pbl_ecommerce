@@ -3,7 +3,7 @@ import { authDetails } from "./auth";
 export const fetchShopItems = async(k) => {
     let apiHost = "";
 
-    let auth = `token ${k["api_key"]}:${z["api_secret"]}`;
+    let auth = `token ${k["api_key"]}:${k["api_secret"]}`;
 
     let url = `${apiHost}/api/method/erpnext.e_commerce.api.get_product_filter_data`;
     let query_args = {

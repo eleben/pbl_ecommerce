@@ -13,12 +13,27 @@ app_license = "MIT"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/pbl_ecommerce/css/pbl_ecommerce.css"
-# app_include_js = "/assets/pbl_ecommerce/js/pbl_ecommerce.js"
+app_include_css = "assets/pbl_ecommerce/css/style.css"
+app_include_js = ["/assets/pbl_ecommerce/js/jquery.nice-select.min.js","/assets/pbl_ecommerce/js/jquery-ui.min.js","/assets/pbl_ecommerce/js/jquery.slicknav.js",
+"/assets/pbl_ecommerce/js/mixitup.min.js",
+"/assets/pbl_ecommerce/js/owl.carousel.min.js",
+ "/assets/pbl_ecommerce/js/main.js"]
 
 # include js, css files in header of web template
-# web_include_css = "/assets/pbl_ecommerce/css/pbl_ecommerce.css"
+web_include_css = "assets/pbl_ecommerce/css/style.css"
 # web_include_js = "/assets/pbl_ecommerce/js/pbl_ecommerce.js"
+web_include_js = ["/assets/pbl_ecommerce/js/jquery.nice-select.min.js","/assets/pbl_ecommerce/js/jquery-ui.min.js","/assets/pbl_ecommerce/js/jquery.slicknav.js",
+"/assets/pbl_ecommerce/js/mixitup.min.js",
+"/assets/pbl_ecommerce/js/owl.carousel.min.js",
+ "/assets/pbl_ecommerce/js/main.js"]
+
+"""
+<script src="/assets/pbl_ecommerce/js/jquery.slicknav.js"></script>
+<script src="/assets/pbl_ecommerce/js/mixitup.min.js"></script>
+
+  <script src="/assets/pbl_ecommerce/js/owl.carousel.min.js"></script>
+  <script src="/assets/pbl_ecommerce/js/main.js"></script>
+"""
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "pbl_ecommerce/public/scss/website"

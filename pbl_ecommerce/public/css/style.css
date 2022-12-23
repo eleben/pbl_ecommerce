@@ -171,10 +171,10 @@ ol {
 	letter-spacing: 2px;
 }
 
-.site-btn {
+.site-btn, .btn-successs,.btn-primary {
 	font-size: 14px;
 	color: #ffffff;
-	font-weight: 800;
+	/* font-weight: 800; */
 	text-transform: uppercase;
 	display: inline-block;
 	padding: 13px 30px 12px;
